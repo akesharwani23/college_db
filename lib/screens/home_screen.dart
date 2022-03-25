@@ -1,25 +1,35 @@
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:college_db/screens/admission_form_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+import '../widgets/app_drawer.dart';
+
+class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text('Life is amazing'),
-          Text('Logged In as ${user!.email}'),
-          SizedBox(
-            height: 20,
-          ),
-          ElevatedButton.icon(
-              onPressed: () => FirebaseAuth.instance.signOut(),
-              icon: Icon(Icons.outlet_sharp),
-              label: Text('Sign Out'))
-        ]),
+      drawer: const AppDrawer(),
+      appBar: AppBar(
+        title: Text('CollegeDB'),
+      ),
+      body: ElevatedButton.icon(
+        onPressed: () {
+          Navigator.of(context).pushNamed(AdmissionFormScreen.routeName);
+        },
+        icon: Icon(Icons.add),
+        label: Text('Add Admission Record'),
       ),
     );
   }

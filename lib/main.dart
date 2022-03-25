@@ -1,3 +1,4 @@
+import 'package:college_db/screens/admission_form_screen.dart';
 import 'package:college_db/screens/auth_screen.dart';
 import 'package:college_db/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,6 +26,9 @@ class MyApp extends StatelessWidget {
               return AuthScreen();
             }
           }),
+      routes: {
+        AdmissionFormScreen.routeName: (ctx) => AdmissionFormScreen(),
+      },
     );
   }
 }

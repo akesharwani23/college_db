@@ -22,6 +22,7 @@ class _LogInWidgetState extends State<LogInWidget> {
     setState(() {
       _isLoading = true;
     });
+    //TODO: Remove password trim?
     await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim());

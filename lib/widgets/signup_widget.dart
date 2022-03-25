@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -23,9 +24,15 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     setState(() {
       _isLoading = true;
     });
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim());
+    //TODO: Remove password trim?
+    UserCredential userCredential = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim());
+    // FIXME: Before committing
+    // String user_uid = FirebaseAuth.instance.currentUser!.uid;
+    // var userData = {'name': 'ONE NAME', 'class': '8th', 'rollno': '300322'};
+    // FirebaseFirestore.instance.collection('users').doc(user_uid).set(userData);
     setState(() {
       _isLoading = false;
     });
