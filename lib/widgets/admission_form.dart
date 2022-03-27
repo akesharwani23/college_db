@@ -62,7 +62,10 @@ class _AdmissionFormState extends State<AdmissionForm> {
       _candidate.setCourseType = formFields['courseType']!.value;
       _candidate.setCourse = formFields['course']!.value;
       _candidate.setBranch = formFields['branch']!.value;
-
+      _candidate.setAppearedInEntranceExam =
+          formFields['examAppearance']!.value == 'Yes' ? true : false;
+      _candidate.setNameEntranceExam = formFields['nameExam']!.value;
+      // _candidate.setRank = formFields['rank']!.value;
       _candidate.writeToDB();
     }
   }
@@ -314,6 +317,77 @@ class _AdmissionFormState extends State<AdmissionForm> {
                           )
                         ],
                       ),
+                      Row(
+                        children: [
+                          Text(
+                            'Appeared in entrance exam: ',
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                          Spacer(),
+                          SizedBox(
+                            width: deviceSize.width * 0.3,
+                            child: FormBuilderDropdown(
+                              name: 'examAppearance',
+                              validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please Select Field';
+                                }
+                              },
+                              items: ["Yes", "No"]
+                                  .map((option) => DropdownMenuItem(
+                                        value: option,
+                                        child: Text('$option'),
+                                      ))
+                                  .toList(),
+                            ),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Name of Exam: ',
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                          Spacer(),
+                          SizedBox(
+                            width: deviceSize.width * 0.6,
+                            child: FormBuilderDropdown(
+                              name: 'nameExam',
+                              validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please Select Field';
+                                }
+                              },
+                              items:
+                                  ["PET", "JEE", "CMAT", "ATMA", "MAT", "GATE"]
+                                      .map((option) => DropdownMenuItem(
+                                            value: option,
+                                            child: Text('$option'),
+                                          ))
+                                      .toList(),
+                            ),
+                          )
+                        ],
+                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child: FormBuilderTextField(
+                      //     name: 'rankExam',
+                      //     validator: (String? value) {
+                      //       if (value == null || value.isEmpty) {
+                      //         return 'Please Provide Rank';
+                      //       }
+                      //     },
+                      //     readOnly: true,
+                      //     keyboardType: TextInputType.number,
+                      //     decoration: InputDecoration(
+                      //         labelText: 'Entrance Exam Rank',
+                      //         border: OutlineInputBorder()),
+                      //   ),
+                      // ),
                     ],
                   ),
                 )),
@@ -351,154 +425,3 @@ class _AdmissionFormState extends State<AdmissionForm> {
     );
   }
 }
-
-// class MaybeWillUseLater extends StatelessWidget {
-//   const MaybeWillUseLater({
-//     Key? key,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: <Widget>[
-//         FormBuilderFilterChip(
-//           name: 'filter_chip',
-//           decoration: InputDecoration(
-//             labelText: 'Select many options',
-//           ),
-//           options: [
-//             FormBuilderFieldOption(value: 'Test', child: Text('Test')),
-//             FormBuilderFieldOption(
-//                 value: 'Test 1', child: Text('Test 1')),
-//             FormBuilderFieldOption(
-//                 value: 'Test 2', child: Text('Test 2')),
-//             FormBuilderFieldOption(
-//                 value: 'Test 3', child: Text('Test 3')),
-//             FormBuilderFieldOption(
-//                 value: 'Test 4', child: Text('Test 4')),
-//           ],
-//         ),
-//         FormBuilderChoiceChip(
-//           name: 'choice_chip',
-//           decoration: InputDecoration(
-//             labelText: 'Select an option',
-//           ),
-//           options: [
-//             FormBuilderFieldOption(value: 'Test', child: Text('Test')),
-//             FormBuilderFieldOption(
-//                 value: 'Test 1', child: Text('Test 1')),
-//             FormBuilderFieldOption(
-//                 value: 'Test 2', child: Text('Test 2')),
-//             FormBuilderFieldOption(
-//                 value: 'Test 3', child: Text('Test 3')),
-//             FormBuilderFieldOption(
-//                 value: 'Test 4', child: Text('Test 4')),
-//           ],
-//         ),
-//         FormBuilderDateTimePicker(
-//           name: 'date',
-//           // onChanged: _onChanged,
-//           inputType: InputType.time,
-//           decoration: InputDecoration(
-//             labelText: 'Appointment Time',
-//           ),
-//           initialTime: TimeOfDay(hour: 8, minute: 0),
-//           // initialValue: DateTime.now(),
-//           // enabled: true,
-//         ),
-//         FormBuilderDateRangePicker(
-//           name: 'date_range',
-//           firstDate: DateTime(1970),
-//           lastDate: DateTime(2030),
-//           // format: DateFormat('yyyy-MM-dd'),
-//           // onChanged: _onChanged,
-//           decoration: InputDecoration(
-//             labelText: 'Date Range',
-//             helperText: 'Helper text',
-//             hintText: 'Hint text',
-//           ),
-//         ),
-//         FormBuilderSlider(
-//           name: 'slider',
-//           // validator: FormBuilderValidators.compose([
-//           //   FormBuilderValidators.min(context, 6),
-//           // ]),
-//           // onChanged: _onChanged,
-//           min: 0.0,
-//           max: 10.0,
-//           initialValue: 7.0,
-//           divisions: 20,
-//           activeColor: Colors.red,
-//           inactiveColor: Colors.pink[100],
-//           decoration: InputDecoration(
-//             labelText: 'Number of things',
-//           ),
-//         ),
-//         FormBuilderCheckbox(
-//           name: 'accept_terms',
-//           initialValue: false,
-//           // onChanged: _onChanged,
-//           title: RichText(
-//             text: TextSpan(
-//               children: [
-//                 TextSpan(
-//                   text: 'I have read and agree to the ',
-//                   style: TextStyle(color: Colors.black),
-//                 ),
-//                 TextSpan(
-//                   text: 'Terms and Conditions',
-//                   style: TextStyle(color: Colors.blue),
-//                 ),
-//               ],
-//             ),
-//           ),
-//           // validator: FormBuilderValidators.equal(
-//           //   context,
-//           //   true,
-//           //   errorText: 'You must accept terms and conditions to continue',
-//           // ),
-//         ),
-//         FormBuilderTextField(
-//           name: 'age',
-//           decoration: InputDecoration(
-//             labelText:
-//                 'This value is passed along to the [Text.maxLines] attribute of the [Text] widget used to display the hint text.',
-//           ),
-//           // onChanged: _onChanged,
-//           validator: (value) {
-//             if (value != null && int.parse(value) < 18) {
-//               return 'You cannot enter';
-//             }
-//           },
-//           // valueTransformer: (text) => num.tryParse(text),
-//           // validator: FormBuilderValidators.compose([
-//           //   FormBuilderValidators.required(context),
-//           //   FormBuilderValidators.numeric(context),
-//           //   FormBuilderValidators.max(context, 70),
-//           // ]),
-//           keyboardType: TextInputType.number,
-//         ),
-//         FormBuilderDropdown(
-//           name: 'gender',
-//           decoration: InputDecoration(
-//             labelText: 'Gender',
-//           ),
-//           // initialValue: 'Male',
-//           allowClear: true,
-//           hint: Text('Select Gender'),
-//           validator: (value) {
-//             if (value == null) {
-//               return 'please select something';
-//             }
-//           },
-//           items: ["MALE", "FEMALE", "OTHER"]
-//               .map((gender) => DropdownMenuItem(
-//                     value: gender,
-//                     child: Text('$gender'),
-//                   ))
-//               .toList(),
-//         ),
-//       ],
-//     );
-//   }
-// }
