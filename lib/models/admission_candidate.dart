@@ -11,6 +11,7 @@ class AdmissionCandidate {
 
   //Personal Details
   String? _name;
+  DateTime? _dob;
   String? _mobileNumber;
   String? _parentName;
   String? _parentMobileNumber;
@@ -22,8 +23,8 @@ class AdmissionCandidate {
   String? _previousInstituteName;
   String? _rollNoLastExam;
   bool? _appearedInEntranceExam;
-  String? _nameEntranceExam;
-  String? _rankEntranceExam;
+  String? _nameEntranceExam; // NA if not appeared
+  String? _rankEntranceExam; // NA if not appeared
 
   //Other
   bool _eligibleForScholarship = false;
@@ -31,6 +32,7 @@ class AdmissionCandidate {
   Map<String, dynamic> _tomap() {
     return {
       'status': _status,
+      'dob': _dob!.toIso8601String(), //FIXME: try catch
       'courseType': _courseType,
       'course': _course,
       'branch': _branch,
@@ -52,7 +54,7 @@ class AdmissionCandidate {
     };
   }
 
-  void writeToDB() async {
+  Future<void> writeToDB() async {
     await FirebaseFirestore.instance
         .collection('admissions')
         .doc()
@@ -62,6 +64,10 @@ class AdmissionCandidate {
   /* ---personal details related functions--- */
   set setName(String name) {
     _name = name;
+  }
+
+  set setDob(DateTime date) {
+    _dob = date;
   }
 
   set setMobileNumber(String number) {
@@ -101,11 +107,11 @@ class AdmissionCandidate {
     _appearedInEntranceExam = didAppeared;
   }
 
-  set setNameEntranceExam(String name) {
+  set setNameEntranceExam(String? name) {
     _nameEntranceExam = name;
   }
 
-  set setRank(String rank) {
+  set setRank(String? rank) {
     _rankEntranceExam = rank;
   }
 
