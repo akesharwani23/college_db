@@ -13,7 +13,6 @@ class AdmissionForm extends StatefulWidget {
 class _AdmissionFormState extends State<AdmissionForm> {
   final _formKey = GlobalKey<FormBuilderState>();
 
-  final _candidate = AdmissionCandidate();
   var _courseOptions = [''];
   var _branchOptions = [''];
   var _isLoading = false;
@@ -51,42 +50,39 @@ class _AdmissionFormState extends State<AdmissionForm> {
     if (_formKey.currentState!.validate()) {
       var formFields = _formKey.currentState!.fields;
       // _candidate.setStatus = formFields['status'] as String;
-      _candidate.setStatus = formFields['status']!.value;
-      _candidate.setDob = formFields['dob']!.value;
-      _candidate.setName = formFields['name']!.value;
-      _candidate.setMobileNumber = formFields['mobileNumber']!.value;
-      _candidate.setParentName = formFields['parentName']!.value;
-      _candidate.setParentMobileNumber =
-          formFields['parentMobileNumber']!.value;
-      _candidate.setAddress = formFields['address']!.value;
-
-      _candidate.setCategory = formFields['category']!.value;
-      _candidate.setEligibleForScholarship =
-          formFields['eligibleForScholarship']!.value;
-
-      _candidate.setParentOccupation = formFields['parentOccupation']!.value;
-      _candidate.setRollNoLastExam = formFields['rollNo']!.value;
-      _candidate.setPrevInsituteName = formFields['prevInstitute']!.value;
-      _candidate.setFeeForSem = double.parse(formFields['feeForSem']!.value);
-      _candidate.setPaidByStudent =
-          double.parse(formFields['amountPaid']!.value);
-      _candidate.setCourseType = formFields['courseType']!.value;
-      _candidate.setCourse = formFields['course']!.value;
-      _candidate.setBranch = formFields['branch']!.value;
-
-      _candidate.setAppearedInEntranceExam =
+      var nameExam = 'N/A';
+      var rankExam = 'N/A';
+      var appearedInEntranceExam =
           formFields['examAppearance']!.value == 'Yes' ? true : false;
-      if (_appearedInEntranceExam) {
-        _candidate.setNameEntranceExam = formFields['nameExam']!.value;
-        _candidate.setRank = formFields['rankExam']!.value;
-      } else {
-        _candidate.setNameEntranceExam = null;
-        _candidate.setRank = null;
+      if (appearedInEntranceExam) {
+        nameExam = formFields['nameExam']!.value;
+        rankExam = formFields['rankExam']!.value;
       }
+      final candidate = AdmissionCandidate(
+          status: formFields['status']!.value,
+          courseType: formFields['courseType']!.value,
+          course: formFields['course']!.value,
+          branch: formFields['branch']!.value,
+          feeForSem: double.parse(formFields['feeForSem']!.value),
+          paidByStudent: double.parse(formFields['amountPaid']!.value),
+          name: formFields['name']!.value,
+          dob: formFields['dob']!.value,
+          mobileNumber: formFields['mobileNumber']!.value,
+          parentName: formFields['parentName']!.value,
+          parentMobileNumber: formFields['parentMobileNumber']!.value,
+          parentOccupation: formFields['parentOccupation']!.value,
+          address: formFields['address']!.value,
+          category: formFields['category']!.value,
+          previousInstituteName: formFields['prevInstitute']!.value,
+          rollNoLastExam: formFields['rollNo']!.value,
+          appearedInEntranceExam: appearedInEntranceExam,
+          nameEntranceExam: nameExam,
+          rankEntranceExam: rankExam,
+          eligibleForScholarship: formFields['eligibleForScholarship']!.value);
       setState(() {
         _isLoading = true;
       });
-      await _candidate.writeToDB();
+      await candidate.writeToDB();
       setState(() {
         _isLoading = false;
       });
