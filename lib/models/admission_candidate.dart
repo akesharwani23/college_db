@@ -54,7 +54,7 @@ class AdmissionCandidate {
   Map<String, dynamic> _tomap() {
     return {
       'status': status,
-      'dob': dob!.toIso8601String(), //FIXME: try catch
+      'dob': dob.toIso8601String(),
       'courseType': courseType,
       'course': course,
       'branch': branch,
@@ -69,12 +69,42 @@ class AdmissionCandidate {
       'category': category,
       'previousInstituteName': previousInstituteName,
       'rollNoLastExam': rollNoLastExam,
-      'appreadInEntranceExam': appearedInEntranceExam,
+      'appearedInEntranceExam': appearedInEntranceExam,
       'nameEntranceExam': nameEntranceExam,
       'rankEntranceExam': rankEntranceExam,
       'eligibleForScholarship': eligibleForScholarship
     };
   }
+
+  static AdmissionCandidate fromDataObject(
+      DocumentSnapshot<Map<String, dynamic>> data) {
+    final candidate = AdmissionCandidate(
+        status: data['status'],
+        courseType: data['courseType'],
+        course: data['course'],
+        branch: data['branch'],
+        feeForSem: data['feeForSem'],
+        paidByStudent: data['paidByStudent'],
+        name: data['name'],
+        dob: DateTime.parse(data['dob']),
+        mobileNumber: data['mobileNumber'],
+        parentName: data['parentName'],
+        parentMobileNumber: data['parentMobileNumber'],
+        parentOccupation: data['parentOccupation'],
+        address: data['address'],
+        category: data['category'],
+        previousInstituteName: data['previousInstituteName'],
+        rollNoLastExam: data['rollNoLastExam'],
+        appearedInEntranceExam: data['appearedInEntranceExam'],
+        nameEntranceExam: data['nameEntranceExam'],
+        rankEntranceExam: data['rankEntranceExam'],
+        eligibleForScholarship: data['eligibleForScholarship']);
+    candidate.id = data.id;
+    return candidate;
+  }
+
+  String? get getId => id;
+  String get getStatus => status;
 
   Future<void> writeToDB() async {
     await FirebaseFirestore.instance
