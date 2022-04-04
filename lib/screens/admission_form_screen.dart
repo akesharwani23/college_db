@@ -10,16 +10,7 @@ class AdmissionFormScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Admission Form'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              //TODO: Call save
-              Navigator.of(context).pop();
-            },
-            icon: Icon(Icons.save),
-          )
-        ],
+        title: const Text('Admission Form'),
       ),
       body: AdmissionForm(),
     );
