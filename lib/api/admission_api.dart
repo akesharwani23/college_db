@@ -30,32 +30,24 @@ class AdmissionPdfApi {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (candidate.status == 'Confirmed')
+          Row(children: [
             Container(
-              child: Text(
-                candidate.status,
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              color: PdfColors.greenAccent,
-              width: double.infinity,
-              alignment: Alignment.center,
-              padding: EdgeInsets.all(8),
-            ),
-          if (candidate.status == 'Not Confirmed')
-            Container(
-              child: Text(
-                candidate.status,
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              color: PdfColors.redAccent,
-              width: double.infinity,
-              alignment: Alignment.center,
-              padding: EdgeInsets.all(8),
-            ),
+                height: 50,
+                width: 50,
+                decoration: BoxDecoration(
+                  border: Border.all(),
+                ),
+                child: Text('life')),
+            SizedBox(width: 15),
+            Text('Chouksey Group Of Colleges, Bilaspur (CG)',
+                style: TextStyle(fontSize: 20))
+          ]),
+          SizedBox(height: 15),
+          _formStatus(candidate),
           Center(
             child: Text(
               'Personal Details',
-              style: TextStyle(fontSize: 24),
+              style: TextStyle(fontSize: 22),
             ),
           ),
           Divider(),
@@ -71,12 +63,12 @@ class AdmissionPdfApi {
               'Parent Mobile Number', candidate.parentMobileNumber),
           textDetailElement('Parent\'s Occupation', candidate.parentOccupation),
           SizedBox(
-            height: 20,
+            height: 15,
           ),
           Center(
             child: Text(
               'Academic Details',
-              style: TextStyle(fontSize: 24),
+              style: TextStyle(fontSize: 22),
             ),
           ),
           Divider(),
@@ -88,13 +80,13 @@ class AdmissionPdfApi {
           textDetailElement('Name Entrance Exam', candidate.nameEntranceExam),
           textDetailElement('Rank Entrance Exam', candidate.rankEntranceExam),
           SizedBox(
-            height: 20,
+            height: 15,
           ),
           Center(
             child: Text(
               'Admission Details',
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 22,
               ),
             ),
           ),
@@ -111,13 +103,39 @@ class AdmissionPdfApi {
     });
   }
 
+  static Widget _formStatus(AdmissionCandidate candidate) {
+    if (candidate.status == 'Confirmed')
+      return Container(
+        child: Text(
+          candidate.status,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        color: PdfColors.greenAccent,
+        width: double.infinity,
+        alignment: Alignment.center,
+        padding: EdgeInsets.all(8),
+      );
+    if (candidate.status == 'Not Confirmed')
+      return Container(
+        child: Text(
+          candidate.status,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        color: PdfColors.redAccent,
+        width: double.infinity,
+        alignment: Alignment.center,
+        padding: EdgeInsets.all(8),
+      );
+    return Text(''); //FIXME: remove this line
+  }
+
   static Widget textDetailElement(String type, String data) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 4, right: 8, left: 8),
       child: Text(
         '${type}: ${data}',
         style: TextStyle(
-          fontSize: 18,
+          fontSize: 16,
         ),
       ),
     );
