@@ -10,32 +10,42 @@ class SignUpWidget extends StatefulWidget {
 }
 
 class _SignUpWidgetState extends State<SignUpWidget> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   var _isLoading = false;
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _emailController.dispose();
+  //   _passwordController.dispose();
+  //   super.dispose();
+  // }
+
+  Map<String, String> _authData = {'email': '', 'password': '', 'name': ''};
 
   void _loginFunction() async {
-    setState(() {
-      _isLoading = true;
-    });
-    //TODO: Remove password trim?
-    UserCredential userCredential = await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(
-            email: _emailController.text.trim(),
-            password: _passwordController.text.trim());
-    // FIXME: Before committing
-    // String user_uid = FirebaseAuth.instance.currentUser!.uid;
-    // var userData = {'name': 'ONE NAME', 'class': '8th', 'rollno': '300322'};
-    // FirebaseFirestore.instance.collection('users').doc(user_uid).set(userData);
-    setState(() {
-      _isLoading = false;
-    });
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      setState(() {
+        _isLoading = true;
+      });
+      try {
+        //TODO: Remove password trim?
+        UserCredential userCredential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+                email: _authData['email']!.trim(),
+                password: _authData['password']!.trim());
+        String user_uid = FirebaseAuth.instance.currentUser!.uid;
+        FirebaseFirestore.instance.collection('users').doc(user_uid).set({
+          'name': _authData['name']!.trim(),
+          'isVerified': false,
+          'isAdmin': false
+        });
+      } catch (error) {
+        print(error);
+      }
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -44,44 +54,79 @@ class _SignUpWidgetState extends State<SignUpWidget> {
       // backgroundColor: Colors.white,
       child: _isLoading
           ? Center(child: CircularProgressIndicator())
-          : Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                  // SizedBox(
-                  //   height: 30,
-                  // ),
-                  TextField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Email',
-                    ),
-                    textInputAction: TextInputAction.next,
-                  ),
-                  SizedBox(height: 15),
-                  TextField(
-                    controller: _passwordController,
-                    textInputAction: TextInputAction.done,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Password',
-                    ),
-                    obscureText: true,
-                  ),
-                  SizedBox(height: 15),
-                  ElevatedButton(
-                      onPressed: _loginFunction,
-                      // onPressed: () => print('clicked'),
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: double.infinity,
-                        margin: EdgeInsets.all(10),
-                        child: const Text(
-                          'SignUp',
-                          style: TextStyle(fontSize: 24),
+          : Form(
+              key: _formKey,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextFormField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Name',
                         ),
-                      ))
-                ]),
+                        textInputAction: TextInputAction.next,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Field Empty';
+                          }
+                        },
+                        onSaved: (value) {
+                          _authData['name'] = value as String;
+                        },
+                      ),
+                      SizedBox(height: 15),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Email',
+                        ),
+                        onSaved: (value) {
+                          _authData['email'] = value as String;
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Field Empty';
+                          } else if (!value.contains('@')) {
+                            return 'Invalid EmailID'; //FIXME: cover other cases also
+                          }
+                        },
+                        textInputAction: TextInputAction.next,
+                      ),
+                      SizedBox(height: 15),
+                      TextFormField(
+                        textInputAction: TextInputAction.done,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Password',
+                        ),
+                        onSaved: (value) {
+                          _authData['password'] = value as String;
+                        },
+                        obscureText: true,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Field Empty';
+                          }
+                        },
+                      ),
+                      SizedBox(height: 15),
+                      ElevatedButton(
+                          onPressed: _loginFunction,
+                          // onPressed: () => print('clicked'),
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: double.infinity,
+                            margin: EdgeInsets.all(10),
+                            child: const Text(
+                              'Sign Up',
+                              style: TextStyle(fontSize: 24),
+                            ),
+                          ))
+                    ]),
+              ),
+            ),
     );
   }
 }
