@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/app_drawer.dart';
+import '../widgets/search_admission_record.dart';
 import 'admission_section_screen.dart';
 
 class VerifiedHomeScreen extends StatefulWidget {
@@ -55,6 +56,16 @@ class _VerifiedHomeScreenState extends State<VerifiedHomeScreen> {
       drawer: const AppDrawer(),
       appBar: AppBar(
         title: Text(_titles[_selectedPageIndex]),
+        actions: [
+          IconButton(
+              onPressed: () {
+                if (_selectedPageIndex == 0) {
+                  showSearch(
+                      context: context, delegate: SearchAdmissionRecord());
+                }
+              },
+              icon: Icon(Icons.search))
+        ],
       ),
       body: _pages[_selectedPageIndex],
       bottomNavigationBar: BottomNavigationBar(
