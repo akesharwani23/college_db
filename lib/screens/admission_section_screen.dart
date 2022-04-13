@@ -4,6 +4,10 @@ import 'package:college_db/screens/admission_form_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
+
+import '../models/admission_candidate.dart';
+import '../widgets/search_admission_record.dart';
 
 class AdmissionSectionScreen extends StatefulWidget {
   const AdmissionSectionScreen({Key? key}) : super(key: key);
@@ -39,6 +43,7 @@ class _AdmissionSectionScreenState extends State<AdmissionSectionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //TODO: make floatinnActionButton with futureBuilder
     return Scaffold(
         floatingActionButton: _isAbleToAddRecord
             ? FloatingActionButton(
@@ -49,69 +54,54 @@ class _AdmissionSectionScreenState extends State<AdmissionSectionScreen> {
                 child: Icon(Icons.add),
               )
             : null,
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  keyboardType: TextInputType.name,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    // labelText: 'Search By Name',
-                    hintText: 'Search By Name',
-                    // icon: Icon(Icons.search),
-                    prefixIcon: Icon(Icons.search),
-                  ),
-                ),
-              ),
-              FutureBuilder(
-                future:
-                    FirebaseFirestore.instance.collection('admissions').get(),
-                builder: (context,
-                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                        snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                  if (snapshot.hasData && !snapshot.data!.docs.isNotEmpty) {
-                    return Text("Document does not exist");
-                  }
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    final docs = snapshot.data!.docs;
-                    return Container(
-                      height: 300,
-                      child: ListView.builder(
-                        itemCount: docs.length,
-                        itemBuilder: (context, index) {
-                          return Card(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 4),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: ListTile(
-                                title: Text(docs[index]['name']),
-                                subtitle: Text(docs[index]['parentName']),
-                                trailing: CircleAvatar(
-                                    backgroundColor:
-                                        docs[index]['status'] == 'Confirmed'
-                                            ? Colors.greenAccent
-                                            : Colors.redAccent,
-                                    maxRadius: 8),
-                                onTap: () =>
-                                    _openAdmissionDetails(docs[index].id),
-                              ),
+        body: Column(
+          children: [
+            SizedBox(
+              height: 20,
+            ),
+            FutureBuilder(
+              future: FirebaseFirestore.instance.collection('admissions').get(),
+              builder: (context,
+                  AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.hasData && !snapshot.data!.docs.isNotEmpty) {
+                  return Text("Document does not exist");
+                }
+                if (snapshot.connectionState == ConnectionState.done) {
+                  final docs = snapshot.data!.docs;
+                  return Expanded(
+                    child: ListView.builder(
+                      itemCount: docs.length,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 4),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: ListTile(
+                              title: Text(docs[index]['name']),
+                              subtitle: Text(docs[index]['parentName']),
+                              trailing: CircleAvatar(
+                                  backgroundColor:
+                                      docs[index]['status'] == 'Confirmed'
+                                          ? Colors.greenAccent
+                                          : Colors.redAccent,
+                                  maxRadius: 8),
+                              onTap: () =>
+                                  _openAdmissionDetails(docs[index].id),
                             ),
-                          );
-                        },
-                      ),
-                    );
-                  }
-                  return Text('working..');
-                },
-              )
-            ],
-          ),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                }
+                return Text('working..');
+              },
+            )
+          ],
         ));
   }
 }
