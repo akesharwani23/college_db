@@ -31,7 +31,9 @@ class SearchAdmissionRecord extends SearchDelegate<AdmissionCandidate?> {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('admissions')
-          .where('name', isGreaterThanOrEqualTo: query, isLessThan: query + 'z')
+          .where('name',
+              isGreaterThanOrEqualTo: query.toUpperCase(),
+              isLessThan: query.toUpperCase() + 'z')
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data!.docs.length > 0) {
@@ -66,7 +68,10 @@ class SearchAdmissionRecord extends SearchDelegate<AdmissionCandidate?> {
   @override
   Widget buildSuggestions(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('admissions').snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection('admissions')
+          .limit(10)
+          .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return ListView.builder(
