@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
             final data =
                 snapshot.data as DocumentSnapshot<Map<String, dynamic>>;
             if (data['isVerified']) {
-              return VerifiedHomeScreen();
+              return const VerifiedHomeScreen();
             } else {
               return Scaffold(
                 appBar: AppBar(title: Text('Not Verified')),
@@ -41,8 +41,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Container(
                   decoration:
                       BoxDecoration(border: Border.all(color: Colors.red)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: Text(
                       'This Account Is Not Verified',
                       style: TextStyle(color: Colors.red),
@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             }
           }
-          return Text('fixme'); //FIXME:
+          return const Text('fixme'); //FIXME:
         });
   }
 }

@@ -1,7 +1,10 @@
+import 'package:provider/provider.dart';
+
 import '../models/admission_candidate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import '../models/form_options.dart' as options;
+import '../providers/admission_candidates.dart';
 
 class AdmissionForm extends StatefulWidget {
   AdmissionForm({Key? key}) : super(key: key);
@@ -45,7 +48,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
     });
   }
 
-  void _submit() async {
+  void _submit(BuildContext context) async {
     _formKey.currentState!.save();
     if (_formKey.currentState!.validate()) {
       var formFields = _formKey.currentState!.fields;
@@ -82,7 +85,8 @@ class _AdmissionFormState extends State<AdmissionForm> {
       setState(() {
         _isLoading = true;
       });
-      await candidate.writeToDB();
+      await Provider.of<AdmissionCandidates>(context, listen: false)
+          .addCandidate(candidate);
       setState(() {
         _isLoading = false;
       });
@@ -558,7 +562,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                         // TODO: Show confirm dialog
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton.icon(
-                            onPressed: _submit,
+                            onPressed: () => _submit(context),
                             icon: Icon(Icons.save),
                             label: Text('Submit')),
                       ),

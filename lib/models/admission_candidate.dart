@@ -29,6 +29,9 @@ class AdmissionCandidate {
   //Other
   bool eligibleForScholarship = false;
 
+  /// [AdmissionCandidate] Constructor
+  ///
+  /// Initializes all value except [id]
   AdmissionCandidate(
       {required this.status,
       required this.courseType,
@@ -51,7 +54,7 @@ class AdmissionCandidate {
       required this.rankEntranceExam,
       required this.eligibleForScholarship});
 
-  Map<String, dynamic> _tomap() {
+  Map<String, dynamic> toMap() {
     return {
       'status': status,
       'dob': dob.toIso8601String(),
@@ -60,9 +63,9 @@ class AdmissionCandidate {
       'branch': branch,
       'feeForSem': feeForSem,
       'paidByStudent': paidByStudent,
-      'name': name,
+      'name': name.toUpperCase(),
       'mobileNumber': mobileNumber,
-      'parentName': parentName,
+      'parentName': parentName.toUpperCase(),
       'parentMobileNumber': parentMobileNumber,
       'parentOccupation': parentOccupation,
       'address': address,
@@ -76,9 +79,11 @@ class AdmissionCandidate {
     };
   }
 
-  static AdmissionCandidate fromDataObject(
-      DocumentSnapshot<Map<String, dynamic>> data) {
-    final candidate = AdmissionCandidate(
+  /// An AdmissionCandidate constructor
+  ///
+  /// Note: Initializes all values except [id]
+  factory AdmissionCandidate.fromMap(Map<String, dynamic> data) {
+    return AdmissionCandidate(
         status: data['status'],
         courseType: data['courseType'],
         course: data['course'],
@@ -99,17 +104,10 @@ class AdmissionCandidate {
         nameEntranceExam: data['nameEntranceExam'],
         rankEntranceExam: data['rankEntranceExam'],
         eligibleForScholarship: data['eligibleForScholarship']);
-    candidate.id = data.id;
-    return candidate;
   }
 
-  String? get getId => id;
   String get getStatus => status;
 
-  Future<void> writeToDB() async {
-    await FirebaseFirestore.instance
-        .collection('admissions')
-        .doc()
-        .set(_tomap());
-  }
+  @override
+  String toString() => toMap().toString();
 }

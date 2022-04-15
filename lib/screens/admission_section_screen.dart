@@ -2,12 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:college_db/screens/admission_detail_screen.dart';
 import 'package:college_db/screens/admission_form_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 
 import '../models/admission_candidate.dart';
-import '../widgets/search_admission_record.dart';
+import '../providers/admission_candidates.dart';
 
 class AdmissionSectionScreen extends StatefulWidget {
   const AdmissionSectionScreen({Key? key}) : super(key: key);
@@ -56,29 +55,25 @@ class _AdmissionSectionScreenState extends State<AdmissionSectionScreen> {
                   Navigator.of(context)
                       .pushNamed(AdmissionFormScreen.routeName);
                 },
-                child: Icon(Icons.add),
+                child: const Icon(Icons.add),
               )
             : null,
         body: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            FutureBuilder(
-              future: FirebaseFirestore.instance.collection('admissions').get(),
-              builder: (context,
-                  AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            FutureBuilder<List<AdmissionCandidate>>(
+              future: Provider.of<AdmissionCandidates>(context).getCandidates(),
+              builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                }
-                if (snapshot.hasData && !snapshot.data!.docs.isNotEmpty) {
-                  return Text("Document does not exist");
+                  return const Center(child: CircularProgressIndicator());
                 }
                 if (snapshot.connectionState == ConnectionState.done) {
-                  final docs = snapshot.data!.docs;
+                  final candidates = snapshot.data;
                   return Expanded(
                     child: ListView.builder(
-                      itemCount: docs.length,
+                      itemCount: candidates!.length,
                       itemBuilder: (context, index) {
                         return Card(
                           margin: const EdgeInsets.symmetric(
@@ -86,16 +81,16 @@ class _AdmissionSectionScreenState extends State<AdmissionSectionScreen> {
                           child: Padding(
                             padding: const EdgeInsets.all(8),
                             child: ListTile(
-                              title: Text(docs[index]['name']),
-                              subtitle: Text(docs[index]['parentName']),
+                              title: Text(candidates[index].name),
+                              subtitle: Text(candidates[index].parentName),
                               trailing: CircleAvatar(
                                   backgroundColor:
-                                      docs[index]['status'] == 'Confirmed'
+                                      candidates[index].status == 'Confirmed'
                                           ? Colors.greenAccent
                                           : Colors.redAccent,
                                   maxRadius: 8),
-                              onTap: () =>
-                                  _openAdmissionDetails(docs[index].id),
+                              onTap: () => _openAdmissionDetails(
+                                  candidates[index].id ?? ''),
                             ),
                           ),
                         );
@@ -103,7 +98,7 @@ class _AdmissionSectionScreenState extends State<AdmissionSectionScreen> {
                     ),
                   );
                 }
-                return Text('working..');
+                return const Text('No Data..');
               },
             )
           ],
