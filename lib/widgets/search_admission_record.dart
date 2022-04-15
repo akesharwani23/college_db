@@ -38,17 +38,17 @@ class SearchAdmissionRecord extends SearchDelegate<AdmissionCandidate?> {
           return ListView.builder(
             itemCount: candidatesSnapshot.data!.length,
             itemBuilder: (context, index) => ListTile(
-              onTap: () {
-                Navigator.of(context).pushReplacementNamed(
-                    AdmissionDetailScreen.routeName,
-                    arguments: candidates![index].id);
-              },
               leading: const Icon(
                 Icons.person,
                 color: Colors.blue,
               ),
               title: Text(candidates![index].name),
               subtitle: Text(candidates[index].parentName),
+              onTap: () {
+                Navigator.of(context).pushReplacementNamed(
+                    AdmissionDetailScreen.routeName,
+                    arguments: candidates[index]);
+              },
             ),
           );
         }
@@ -72,15 +72,14 @@ class SearchAdmissionRecord extends SearchDelegate<AdmissionCandidate?> {
           return ListView.builder(
             itemCount: candidatesSnapshot.data!.length,
             itemBuilder: (context, index) => ListTile(
-              onTap: () {
-                Navigator.of(context).pushReplacementNamed(
-                    AdmissionDetailScreen.routeName,
-                    arguments: candidates![index].id);
-              },
-              leading: const Icon(Icons.person),
-              title: Text(candidates![index].name),
-              subtitle: Text(candidates[index].parentName),
-            ),
+                leading: const Icon(Icons.person),
+                title: Text(candidates![index].name),
+                subtitle: Text(candidates[index].parentName),
+                onTap: () {
+                  Navigator.of(context).pushReplacementNamed(
+                      AdmissionDetailScreen.routeName,
+                      arguments: candidates[index]);
+                }),
           );
         }
         return const Center(

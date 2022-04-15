@@ -19,11 +19,6 @@ class _AdmissionSectionScreenState extends State<AdmissionSectionScreen> {
   var _value = false;
   var _isAbleToAddRecord = false;
 
-  void _openAdmissionDetails(String id) {
-    Navigator.of(context)
-        .pushNamed(AdmissionDetailScreen.routeName, arguments: id);
-  }
-
   @override
   void initState() {
     isCurrentUserAdmin();
@@ -81,17 +76,17 @@ class _AdmissionSectionScreenState extends State<AdmissionSectionScreen> {
                           child: Padding(
                             padding: const EdgeInsets.all(8),
                             child: ListTile(
-                              title: Text(candidates[index].name),
-                              subtitle: Text(candidates[index].parentName),
-                              trailing: CircleAvatar(
-                                  backgroundColor:
-                                      candidates[index].status == 'Confirmed'
-                                          ? Colors.greenAccent
-                                          : Colors.redAccent,
-                                  maxRadius: 8),
-                              onTap: () => _openAdmissionDetails(
-                                  candidates[index].id ?? ''),
-                            ),
+                                title: Text(candidates[index].name),
+                                subtitle: Text(candidates[index].parentName),
+                                trailing: CircleAvatar(
+                                    backgroundColor:
+                                        candidates[index].status == 'Confirmed'
+                                            ? Colors.greenAccent
+                                            : Colors.redAccent,
+                                    maxRadius: 8),
+                                onTap: () => Navigator.of(context).pushNamed(
+                                    AdmissionDetailScreen.routeName,
+                                    arguments: candidates[index])),
                           ),
                         );
                       },
