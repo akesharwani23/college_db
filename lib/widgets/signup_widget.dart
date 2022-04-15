@@ -39,13 +39,46 @@ class _SignUpWidgetState extends State<SignUpWidget> {
           'isVerified': false,
           'isAdmin': false
         });
-      } catch (error) {
-        print(error);
+      } on FirebaseAuthException catch (error) {
+        if (error.code == 'weak-password') {
+          _showErrorDialogBox(
+              context, 'Weak Password!!', 'Try Another Password');
+        } else if (error.code == 'email-already-in-use') {
+          _showErrorDialogBox(
+              context, 'Email Already In Use!!', 'Try Another E-mail');
+        }
+      } catch (e) {
+        print(e);
       }
       setState(() {
         _isLoading = false;
       });
     }
+  }
+
+  _showErrorDialogBox(BuildContext context, String title, String message) {
+    showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+              title: Row(
+                children: [
+                  Icon(
+                    Icons.error,
+                    color: Colors.red,
+                  ),
+                  Text(
+                    title,
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ],
+              ),
+              content: Text(message),
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: Text('Okay'))
+              ],
+            ));
   }
 
   @override
@@ -109,6 +142,10 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           if (value == null || value.isEmpty) {
                             return 'Field Empty';
                           }
+                          // if (!value.contains(RegExp(
+                          //     r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$'))) {
+                          //   return '*Should contain at least one upper case\n*Should contain at least one lower case\n*Should contain at least one digit\n*Should contain at least one Special character\n*Must be at least 8 characters in length';
+                          // }
                         },
                       ),
                       SizedBox(height: 15),

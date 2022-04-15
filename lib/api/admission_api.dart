@@ -1,4 +1,5 @@
 import 'package:college_db/models/admission_candidate.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
@@ -14,9 +15,10 @@ class AdmissionPdfApi {
     // create pdf with data
     Directory appDocDir = await getExternalStorageDirectory() as Directory;
     final file = File('${appDocDir.path}/secondExample.pdf');
-    await file
-        .writeAsBytes(await pdf.save())
-        .then((value) => print(value.path));
+    await file.writeAsBytes(await pdf.save()).then((value) {
+      print(value.path);
+      OpenFile.open(value.path);
+    });
     print('done');
     // write data
   }

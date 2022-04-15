@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,14 @@ class AppDrawer extends StatelessWidget {
     return email;
   }
 
+  Future<String> _getName() async {
+    var value = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    return value['name'];
+  }
+
   void _signOut() async {
     await FirebaseAuth.instance.signOut();
   }
@@ -16,36 +25,51 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Column(children: [
-        Stack(
-          children: [
-            Container(
-              height: 200,
-              width: double.infinity,
-              color: Colors.blue,
-            ),
-            FutureBuilder(
-              future: _getUserEmail(),
-              builder: (ctx, text) => Text(
-                '${text.data}',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24),
+      child: Container(
+        child: Column(children: [
+          Stack(
+            children: [
+              Container(
+                height: 110,
+                width: double.infinity,
               ),
-            ),
-          ],
-          alignment: Alignment.bottomCenter,
-        ),
-        Container(
-          width: double.infinity,
-          child: ElevatedButton.icon(
-            onPressed: _signOut,
-            icon: Icon(Icons.arrow_back),
-            label: Text('Sign out'),
+              FutureBuilder(
+                future: _getUserEmail(),
+                builder: (ctx, text) => Text(
+                  'Email: ${text.data}',
+                  style: TextStyle(
+                      // color: Colors.white,
+                      // fontWeight: FontWeight.bold,
+                      fontSize: 18),
+                ),
+              ),
+            ],
+            alignment: Alignment.bottomCenter,
           ),
-        ),
-      ]),
+          FutureBuilder(
+            future: _getName(),
+            builder: (ctx, text) => Text(
+              text.connectionState == ConnectionState.done
+                  ? 'Name: ${text.data}'
+                  : '',
+              style: TextStyle(
+                  // color: Colors.white,
+                  // fontWeight: FontWeight.bold,
+                  fontSize: 18),
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.all(8),
+            child: ElevatedButton.icon(
+              onPressed: _signOut,
+              style: ElevatedButton.styleFrom(primary: Colors.transparent),
+              icon: Icon(Icons.arrow_back),
+              label: Text('Sign out'),
+            ),
+          ),
+        ]),
+      ),
     );
   }
 }

@@ -27,15 +27,20 @@ class _AdmissionSectionScreenState extends State<AdmissionSectionScreen> {
 
   @override
   void initState() {
-    _asyncFunc();
+    isCurrentUserAdmin();
     super.initState();
   }
 
-  void _asyncFunc() async {
-    final snapshot = await FirebaseFirestore.instance
+  Future<DocumentSnapshot<Map<String, dynamic>>>
+      getCurrentUserDetailSnapshot() async {
+    return await FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get();
+  }
+
+  void isCurrentUserAdmin() async {
+    final snapshot = await getCurrentUserDetailSnapshot();
     setState(() {
       _isAbleToAddRecord = snapshot.data()!['isAdmin']; //FIXME: try catch?
     });

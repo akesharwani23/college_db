@@ -25,15 +25,18 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _isLogin ? LogInWidget() : SignUpWidget(),
-            TextButton(
-                onPressed: _toggle,
-                child: Text('${!_isLogin ? "login" : "signup"} Instead'))
-          ],
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _isLogin ? LogInWidget() : SignUpWidget(),
+              TextButton(
+                  onPressed: _toggle,
+                  child: Text('${!_isLogin ? "login" : "signup"} Instead'))
+            ],
+          ),
         ));
   }
 }

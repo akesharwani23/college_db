@@ -13,7 +13,6 @@ class VerifiedHomeScreen extends StatefulWidget {
 }
 
 class _VerifiedHomeScreenState extends State<VerifiedHomeScreen> {
-  final user = FirebaseAuth.instance.currentUser;
   List<Widget> _pages = [];
   List<String> _titles = ['One', 'Staff Section'];
   List<Map<String, dynamic>> _value = [{}];

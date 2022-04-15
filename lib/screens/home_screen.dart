@@ -1,11 +1,5 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:college_db/models/admission_candidate.dart';
-import 'package:college_db/screens/admission_form_screen.dart';
-import 'package:college_db/screens/admission_section_screen.dart';
 import 'package:college_db/screens/verified_home_screen.dart';
-import 'package:college_db/widgets/home_option_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
