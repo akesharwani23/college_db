@@ -1,4 +1,4 @@
-import 'package:college_db/api/admission_api.dart';
+import 'package:college_db/api/admission_pdf_api.dart';
 import 'package:flutter/material.dart';
 
 import '../models/admission_candidate.dart';
