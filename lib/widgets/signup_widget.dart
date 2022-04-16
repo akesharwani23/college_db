@@ -1,6 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/current_user.dart';
 
 class SignUpWidget extends StatefulWidget {
   const SignUpWidget({Key? key}) : super(key: key);
@@ -12,16 +14,11 @@ class SignUpWidget extends StatefulWidget {
 class _SignUpWidgetState extends State<SignUpWidget> {
   final _formKey = GlobalKey<FormState>();
   var _isLoading = false;
-  // @override
-  // void dispose() {
-  //   _emailController.dispose();
-  //   _passwordController.dispose();
-  //   super.dispose();
-  // }
 
   Map<String, String> _authData = {'email': '', 'password': '', 'name': ''};
 
   void _loginFunction() async {
+    final provider = Provider.of<CurrentUserProvider>(context, listen: false);
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       setState(() {
@@ -33,12 +30,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
             .createUserWithEmailAndPassword(
                 email: _authData['email']!.trim(),
                 password: _authData['password']!.trim());
-        String user_uid = FirebaseAuth.instance.currentUser!.uid;
-        FirebaseFirestore.instance.collection('users').doc(user_uid).set({
-          'name': _authData['name']!.trim(),
-          'isVerified': false,
-          'isAdmin': false
-        });
+        String userUid = FirebaseAuth.instance.currentUser!.uid;
+        provider.createUser(
+            userUid, CurrentUser(name: _authData['name']!.trim()));
       } on FirebaseAuthException catch (error) {
         if (error.code == 'weak-password') {
           _showErrorDialogBox(
@@ -46,6 +40,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         } else if (error.code == 'email-already-in-use') {
           _showErrorDialogBox(
               context, 'Email Already In Use!!', 'Try Another E-mail');
+        } else {
+          _showErrorDialogBox(context, error.code, error.code);
         }
       } catch (e) {
         //FIXME:
@@ -62,13 +58,13 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         builder: (ctx) => AlertDialog(
               title: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.error,
                     color: Colors.red,
                   ),
                   Text(
                     title,
-                    style: TextStyle(color: Colors.red),
+                    style: const TextStyle(color: Colors.red),
                   ),
                 ],
               ),
@@ -76,7 +72,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               actions: [
                 TextButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    child: Text('Okay'))
+                    child: const Text('Okay'))
               ],
             ));
   }
@@ -86,7 +82,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     return Container(
       // backgroundColor: Colors.white,
       child: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Form(
               key: _formKey,
               child: Padding(
@@ -109,7 +105,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           _authData['name'] = value as String;
                         },
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       TextFormField(
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
@@ -127,7 +123,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                         },
                         textInputAction: TextInputAction.next,
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       TextFormField(
                         textInputAction: TextInputAction.done,
                         decoration: InputDecoration(
@@ -148,13 +144,13 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           // }
                         },
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       ElevatedButton(
                           onPressed: _loginFunction,
                           child: Container(
                             alignment: Alignment.center,
                             width: double.infinity,
-                            margin: EdgeInsets.all(10),
+                            margin: const EdgeInsets.all(10),
                             child: const Text(
                               'Sign Up',
                               style: TextStyle(fontSize: 24),

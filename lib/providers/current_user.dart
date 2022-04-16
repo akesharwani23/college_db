@@ -9,7 +9,7 @@ class CurrentUser {
   final bool isVerified;
 
   CurrentUser(
-      {required this.name, required this.isAdmin, required this.isVerified});
+      {required this.name, this.isAdmin = false, this.isVerified = false});
 
   factory CurrentUser.fromMap(Map<String, dynamic> map) {
     return CurrentUser(
@@ -38,8 +38,9 @@ class CurrentUserProvider with ChangeNotifier {
     return CurrentUser.fromMap(snapshot.data() as Map<String, dynamic>);
   }
 
-  Future<DocumentReference> addUser(CurrentUser user) async {
-    final ref = await _api.addDocument(user.toMap());
+  Future<void> createUser(String id, CurrentUser user) async {
+    final ref = await _api.ref.doc(id).set(user.toMap());
+    // final ref = await _api.addDocument(user.toMap());
     notifyListeners();
     return ref;
   }

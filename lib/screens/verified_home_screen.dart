@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/app_drawer.dart';
@@ -14,19 +13,19 @@ class VerifiedHomeScreen extends StatefulWidget {
 
 class _VerifiedHomeScreenState extends State<VerifiedHomeScreen> {
   List<Widget> _pages = [];
-  List<String> _titles = ['One', 'Staff Section'];
-  List<Map<String, dynamic>> _value = [{}];
+  List<String> _titles = [];
+  // List<Map<String, dynamic>> _value = [{}];
   int _selectedPageIndex = 0;
 
   @override
   void initState() {
     _titles = ['Admission Section', 'Staff Section'];
     _pages = [
-      AdmissionSectionScreen(),
+      const AdmissionSectionScreen(),
       Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: const [
             Icon(
               Icons.info,
               color: Colors.red,
@@ -63,7 +62,7 @@ class _VerifiedHomeScreenState extends State<VerifiedHomeScreen> {
                       context: context, delegate: SearchAdmissionRecord());
                 }
               },
-              icon: Icon(Icons.search))
+              icon: const Icon(Icons.search))
         ],
       ),
       body: _pages[_selectedPageIndex],
