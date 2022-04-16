@@ -54,7 +54,6 @@ class _LogInWidgetState extends State<LogInWidget> {
       } on FirebaseAuthException catch (error) {
         _showErrorDialogBox(context, error.code.replaceAll('-', ' '),
             error.code.replaceAll('-', ' '));
-        print('>>>>${_authData['email']} ${_authData['password']}');
       }
     }
     setState(() {
@@ -111,7 +110,6 @@ class _LogInWidgetState extends State<LogInWidget> {
                     SizedBox(height: 15),
                     ElevatedButton(
                         onPressed: _loginFunction,
-                        // onPressed: () => print('clicked'),
                         child: Container(
                           alignment: Alignment.center,
                           width: double.infinity,

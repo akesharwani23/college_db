@@ -48,7 +48,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               context, 'Email Already In Use!!', 'Try Another E-mail');
         }
       } catch (e) {
-        print(e);
+        //FIXME:
       }
       setState(() {
         _isLoading = false;
@@ -151,7 +151,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       SizedBox(height: 15),
                       ElevatedButton(
                           onPressed: _loginFunction,
-                          // onPressed: () => print('clicked'),
                           child: Container(
                             alignment: Alignment.center,
                             width: double.infinity,
