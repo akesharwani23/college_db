@@ -1,3 +1,4 @@
+import 'package:college_db/providers/current_user.dart';
 import 'package:college_db/screens/admission_detail_screen.dart';
 import 'package:college_db/screens/admission_form_screen.dart';
 import 'package:college_db/screens/auth_screen.dart';
@@ -16,6 +17,7 @@ void main() async {
     ChangeNotifierProvider(
       create: (_) => AdmissionCandidates(),
     ),
+    ChangeNotifierProvider(create: (_) => CurrentUserProvider()),
   ], child: const MyApp()));
 }
 
