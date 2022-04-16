@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:college_db/providers/current_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
@@ -46,26 +48,34 @@ class AppDrawer extends StatelessWidget {
             ],
             alignment: Alignment.bottomCenter,
           ),
-          FutureBuilder(
-            future: _getName(),
-            builder: (ctx, text) => Text(
-              text.connectionState == ConnectionState.done
-                  ? 'Name: ${text.data}'
-                  : '',
-              style: TextStyle(
-                  // color: Colors.white,
-                  // fontWeight: FontWeight.bold,
-                  fontSize: 18),
-            ),
+          StreamBuilder<CurrentUser?>(
+            stream: Provider.of<CurrentUserProvider>(context).cachedUser,
+            builder: (context, userStream) {
+              if (userStream.connectionState == ConnectionState.active ||
+                  userStream.connectionState == ConnectionState.done) {
+                if (userStream.hasData) {
+                  // got non-null currentUser
+                  final user = userStream.data!;
+                  return Text(
+                    'Name: ${user.name}',
+                    style: const TextStyle(
+                        // color: Colors.white,
+                        // fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                  );
+                }
+              }
+              return const SizedBox.shrink();
+            },
           ),
           Container(
             width: double.infinity,
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: ElevatedButton.icon(
               onPressed: _signOut,
               style: ElevatedButton.styleFrom(primary: Colors.transparent),
-              icon: Icon(Icons.arrow_back),
-              label: Text('Sign out'),
+              icon: const Icon(Icons.arrow_back),
+              label: const Text('Sign out'),
             ),
           ),
         ]),

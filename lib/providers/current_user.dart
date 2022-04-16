@@ -1,7 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:convert';
+
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:college_db/api/services_api.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CurrentUser {
   final String name;
@@ -35,12 +38,32 @@ class CurrentUserProvider with ChangeNotifier {
     if (snapshot.data() == null) {
       return null;
     }
-    return CurrentUser.fromMap(snapshot.data() as Map<String, dynamic>);
+    final user = CurrentUser.fromMap(snapshot.data() as Map<String, dynamic>);
+    _cacheUserData(user);
+    return user;
+  }
+
+  Stream<CurrentUser?> get cachedUser async* {
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey('userData')) {
+      yield CurrentUser.fromMap(
+          json.decode(prefs.getString('userData') as String)
+              as Map<String, dynamic>);
+    }
+    yield await getCurrentUser;
+  }
+
+  void _cacheUserData(CurrentUser user) async {
+    final prefs = await SharedPreferences.getInstance();
+    final userData = json.encode(user.toMap());
+    prefs.setString('userData', userData);
+    // notifyListeners();
   }
 
   Future<void> createUser(String id, CurrentUser user) async {
     final ref = await _api.ref.doc(id).set(user.toMap());
     // final ref = await _api.addDocument(user.toMap());
+    _cacheUserData(user);
     notifyListeners();
     return ref;
   }

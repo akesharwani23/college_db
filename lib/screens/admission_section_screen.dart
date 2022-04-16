@@ -13,13 +13,14 @@ class AdmissionSectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: FutureBuilder<CurrentUser?>(
-            future: Provider.of<CurrentUserProvider>(context).getCurrentUser,
-            builder: (context, userSnapshot) {
-              if (userSnapshot.connectionState == ConnectionState.done) {
-                if (userSnapshot.hasData) {
-                  // it means successfully got CurrentUser
-                  final user = userSnapshot.data!;
+        floatingActionButton: StreamBuilder<CurrentUser?>(
+            stream: Provider.of<CurrentUserProvider>(context).cachedUser,
+            builder: (context, userStream) {
+              if (userStream.connectionState == ConnectionState.active ||
+                  userStream.connectionState == ConnectionState.done) {
+                if (userStream.hasData) {
+                  // got non-null CurrentUser
+                  final user = userStream.data!;
                   if (user.isAdmin) {
                     return FloatingActionButton(
                       child: const Icon(Icons.add),
@@ -33,6 +34,26 @@ class AdmissionSectionScreen extends StatelessWidget {
               }
               return const SizedBox.shrink();
             }),
+        // floatingActionButton: FutureBuilder<CurrentUser?>(
+        //     future: Provider.of<CurrentUserProvider>(context).getCurrentUser,
+        //     builder: (context, userSnapshot) {
+        //       if (userSnapshot.connectionState == ConnectionState.done) {
+        //         if (userSnapshot.hasData) {
+        //           // it means successfully got CurrentUser
+        //           final user = userSnapshot.data!;
+        //           if (user.isAdmin) {
+        //             return FloatingActionButton(
+        //               child: const Icon(Icons.add),
+        //               onPressed: () {
+        //                 Navigator.of(context)
+        //                     .pushNamed(AdmissionFormScreen.routeName);
+        //               },
+        //             );
+        //           }
+        //         }
+        //       }
+        //       return const SizedBox.shrink();
+        //     }),
         body: Column(
           children: [
             const SizedBox(
