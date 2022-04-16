@@ -35,20 +35,20 @@ class MyApp extends StatelessWidget {
             }
           }),
       theme: ThemeData(
-          bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          bottomNavigationBarTheme: const BottomNavigationBarThemeData(
               selectedItemColor: Colors.lightBlue,
               unselectedItemColor: Colors.grey),
-          floatingActionButtonTheme:
-              FloatingActionButtonThemeData(backgroundColor: Colors.amber),
-          primaryColor: Color.fromARGB(255, 19, 37, 41),
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+              backgroundColor: Colors.amber),
+          primaryColor: const Color.fromARGB(255, 19, 37, 41),
           // buttonColor: C,
           // rgba(19,37,41,255)
           backgroundColor: Colors.amberAccent,
           colorScheme:
               ColorScheme.fromSwatch().copyWith(secondary: Colors.pinkAccent)),
       routes: {
-        AdmissionFormScreen.routeName: (ctx) => AdmissionFormScreen(),
-        AdmissionDetailScreen.routeName: (ctx) => AdmissionDetailScreen(),
+        AdmissionFormScreen.routeName: (ctx) => const AdmissionFormScreen(),
+        AdmissionDetailScreen.routeName: (ctx) => const AdmissionDetailScreen(),
       },
     );
   }
