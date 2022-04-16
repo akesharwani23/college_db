@@ -34,69 +34,51 @@ class AdmissionSectionScreen extends StatelessWidget {
               }
               return const SizedBox.shrink();
             }),
-        // floatingActionButton: FutureBuilder<CurrentUser?>(
-        //     future: Provider.of<CurrentUserProvider>(context).getCurrentUser,
-        //     builder: (context, userSnapshot) {
-        //       if (userSnapshot.connectionState == ConnectionState.done) {
-        //         if (userSnapshot.hasData) {
-        //           // it means successfully got CurrentUser
-        //           final user = userSnapshot.data!;
-        //           if (user.isAdmin) {
-        //             return FloatingActionButton(
-        //               child: const Icon(Icons.add),
-        //               onPressed: () {
-        //                 Navigator.of(context)
-        //                     .pushNamed(AdmissionFormScreen.routeName);
-        //               },
-        //             );
-        //           }
-        //         }
-        //       }
-        //       return const SizedBox.shrink();
-        //     }),
         body: Column(
           children: [
             const SizedBox(
               height: 20,
             ),
-            FutureBuilder<List<AdmissionCandidate>>(
-              future: Provider.of<AdmissionCandidates>(context).getCandidates(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                if (snapshot.connectionState == ConnectionState.done) {
-                  final candidates = snapshot.data;
-                  return Expanded(
-                    child: ListView.builder(
-                      itemCount: candidates!.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 4),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: ListTile(
-                                title: Text(candidates[index].name),
-                                subtitle: Text(candidates[index].parentName),
-                                trailing: CircleAvatar(
-                                    backgroundColor:
-                                        candidates[index].status == 'Confirmed'
-                                            ? Colors.greenAccent
-                                            : Colors.redAccent,
-                                    maxRadius: 8),
-                                onTap: () => Navigator.of(context).pushNamed(
-                                    AdmissionDetailScreen.routeName,
-                                    arguments: candidates[index])),
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                }
-                return const Text('No Data..');
-              },
-            )
+            StreamBuilder<List<AdmissionCandidate>>(
+                stream:
+                    Provider.of<AdmissionCandidates>(context).cachedCandidate,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.connectionState == ConnectionState.active ||
+                      snapshot.connectionState == ConnectionState.done) {
+                    final candidates = snapshot.data;
+                    return Expanded(
+                      child: ListView.builder(
+                        itemCount: candidates!.length,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 4),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: ListTile(
+                                  title: Text(candidates[index].name),
+                                  subtitle: Text(candidates[index].parentName),
+                                  trailing: CircleAvatar(
+                                      backgroundColor:
+                                          candidates[index].status ==
+                                                  'Confirmed'
+                                              ? Colors.greenAccent
+                                              : Colors.redAccent,
+                                      maxRadius: 8),
+                                  onTap: () => Navigator.of(context).pushNamed(
+                                      AdmissionDetailScreen.routeName,
+                                      arguments: candidates[index])),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  }
+                  return const Text('No Data');
+                })
           ],
         ));
   }

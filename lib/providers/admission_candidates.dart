@@ -6,6 +6,7 @@ import '../models/admission_candidate.dart';
 
 class AdmissionCandidates with ChangeNotifier {
   final ServicesApi _api = ServicesApi('admissions');
+  List<AdmissionCandidate> _cache = [];
 
   Future<List<AdmissionCandidate>> getCandidates(
           {final int limit = 10}) async =>
@@ -17,6 +18,15 @@ class AdmissionCandidates with ChangeNotifier {
                 candidate.id = element.id;
                 return candidate;
               }).toList()));
+
+  Stream<List<AdmissionCandidate>> get cachedCandidate async* {
+    if (!_cache.isEmpty) {
+      yield _cache;
+    }
+    final candidates = await getCandidates();
+    _cache = candidates;
+    yield candidates;
+  }
 
   Future<AdmissionCandidate?> getCandidate(String id) async {
     final snapshot = await _api.getDocumentById(id);
