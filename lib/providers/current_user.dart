@@ -17,6 +17,10 @@ class CurrentUser {
         isAdmin: map['isAdmin'],
         isVerified: map['isVerified']);
   }
+
+  Map<String, dynamic> toMap() {
+    return {'name': name, 'isAdmin': isAdmin, 'isVerified': isVerified};
+  }
 }
 
 class CurrentUserProvider with ChangeNotifier {
@@ -32,5 +36,11 @@ class CurrentUserProvider with ChangeNotifier {
       return null;
     }
     return CurrentUser.fromMap(snapshot.data() as Map<String, dynamic>);
+  }
+
+  Future<DocumentReference> addUser(CurrentUser user) async {
+    final ref = await _api.addDocument(user.toMap());
+    notifyListeners();
+    return ref;
   }
 }
