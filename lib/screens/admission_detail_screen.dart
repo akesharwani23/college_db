@@ -1,7 +1,11 @@
 import 'package:college_db/api/admission_pdf_api.dart';
+import 'package:college_db/screens/admission_form_screen.dart';
+import 'package:college_db/widgets/admission_form.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../models/admission_candidate.dart';
+import '../providers/current_user.dart';
 
 class AdmissionDetailScreen extends StatelessWidget {
   static const routeName = '/admission-detail-screen';
@@ -22,6 +26,32 @@ class AdmissionDetailScreen extends StatelessWidget {
                 icon: const Icon(Icons.picture_as_pdf))
           ],
         ),
+        floatingActionButton: StreamBuilder<CurrentUser?>(
+            stream: Provider.of<CurrentUserProvider>(context).cachedUser,
+            builder: (context, userStream) {
+              if (userStream.connectionState == ConnectionState.active ||
+                  userStream.connectionState == ConnectionState.done) {
+                if (userStream.hasData) {
+                  // got non-null CurrentUser
+                  final user = userStream.data!;
+                  if (user.isAdmin) {
+                    return FloatingActionButton.extended(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(
+                            AdmissionFormScreen.routeName,
+                            arguments: candidate);
+                      },
+                      label: const Text(
+                        'EDIT',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      icon: const Icon(Icons.edit),
+                    );
+                  }
+                }
+              }
+              return const SizedBox.shrink();
+            }),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
