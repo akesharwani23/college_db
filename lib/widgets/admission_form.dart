@@ -55,11 +55,13 @@ class _AdmissionFormState extends State<AdmissionForm> {
       // _candidate.setStatus = formFields['status'] as String;
       var nameExam = 'N/A';
       var rankExam = 'N/A';
+      var scoreExam = 'N/A';
       var appearedInEntranceExam =
           formFields['examAppearance']!.value == 'Yes' ? true : false;
       if (appearedInEntranceExam) {
         nameExam = formFields['nameExam']!.value;
         rankExam = formFields['rankExam']!.value;
+        scoreExam = formFields['scoreExam']!.value;
       }
       final candidate = AdmissionCandidate(
           status: formFields['status']!.value,
@@ -68,6 +70,8 @@ class _AdmissionFormState extends State<AdmissionForm> {
           branch: formFields['branch']!.value,
           feeForSem: double.parse(formFields['feeForSem']!.value),
           paidByStudent: double.parse(formFields['amountPaid']!.value),
+          cancellationCharge:
+              double.parse(formFields['cancellationCharge']!.value),
           name: formFields['name']!.value,
           dob: formFields['dob']!.value,
           mobileNumber: formFields['mobileNumber']!.value,
@@ -81,7 +85,13 @@ class _AdmissionFormState extends State<AdmissionForm> {
           appearedInEntranceExam: appearedInEntranceExam,
           nameEntranceExam: nameExam,
           rankEntranceExam: rankExam,
-          eligibleForScholarship: formFields['eligibleForScholarship']!.value);
+          scoreEntranceExam: scoreExam,
+          remark: formFields['remark']!.value,
+          eligibleForScholarship: formFields['eligibleForScholarship']!.value,
+          admittedBy: formFields['admittedBy']!.value,
+          admissionDate: formFields['admissionDate']!.value,
+          admissionIncharge: formFields['admissionIncharge']!.value,
+          session: formFields['session']!.value);
       setState(() {
         _isLoading = true;
       });
@@ -150,7 +160,11 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                             return 'Please Select status';
                                           }
                                         },
-                                        options: ["Confirmed", "Not Confirmed"]
+                                        options: [
+                                          "Confirmed",
+                                          "Provisional",
+                                          "Registration"
+                                        ]
                                             .map((option) =>
                                                 FormBuilderFieldOption(
                                                     value: option,
@@ -411,6 +425,38 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                     border: OutlineInputBorder()),
                               ),
                             ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: FormBuilderTextField(
+                                name: 'cancellationCharge',
+                                keyboardType: TextInputType.number,
+                                validator: (String? value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please Enter Cancellation Charges';
+                                  }
+                                },
+                                decoration: InputDecoration(
+                                    prefixIcon:
+                                        Icon(Icons.currency_rupee_rounded),
+                                    labelText: 'Cancellation Charges',
+                                    border: OutlineInputBorder()),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: FormBuilderTextField(
+                                name: 'remark',
+                                maxLines: 3,
+                                validator: (String? value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please Enter Field';
+                                  }
+                                },
+                                decoration: InputDecoration(
+                                    labelText: 'Remark',
+                                    border: OutlineInputBorder()),
+                              ),
+                            ),
                             Row(
                               children: [
                                 Text(
@@ -539,6 +585,78 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                       border: OutlineInputBorder()),
                                 ),
                               ),
+                            if (_appearedInEntranceExam)
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: FormBuilderTextField(
+                                  name: 'scoreExam',
+                                  validator: (String? value) {
+                                    if (_appearedInEntranceExam) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please Provide Score Of Entrance Exam';
+                                      }
+                                    }
+                                  },
+                                  keyboardType: TextInputType.number,
+                                  decoration: InputDecoration(
+                                      labelText: 'Entrance Exam Score',
+                                      border: OutlineInputBorder()),
+                                ),
+                              ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: FormBuilderTextField(
+                                name: 'admittedBy',
+                                validator: (String? value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please Enter Admitted By';
+                                  }
+                                },
+                                decoration: InputDecoration(
+                                    labelText: 'Admitted By',
+                                    border: OutlineInputBorder()),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: FormBuilderTextField(
+                                name: 'admissionIncharge',
+                                validator: (String? value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please Enter Admission Incharge Name';
+                                  }
+                                },
+                                decoration: InputDecoration(
+                                    labelText: 'Admission Incharge Name',
+                                    border: OutlineInputBorder()),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: FormBuilderTextField(
+                                name: 'session',
+                                validator: (String? value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please Enter Session';
+                                  }
+                                },
+                                decoration: InputDecoration(
+                                    labelText: 'Session',
+                                    border: OutlineInputBorder()),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: FormBuilderDateTimePicker(
+                                name: 'admissionDate',
+                                initialValue: DateTime.now(),
+                                inputType: InputType.date,
+                                initialDate: DateTime.now(),
+                                decoration: InputDecoration(
+                                    labelText: 'Date Of Admission',
+                                    suffixIcon: Icon(Icons.calendar_month)),
+                              ),
+                            ),
                           ],
                         ),
                       )),

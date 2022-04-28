@@ -1,8 +1,6 @@
 /**
  * Form options stored as List<String>
  */
-
-//TODO: Correct these writing. or write full name
 Map<String, List<String>> courseOptions = {
   "UG": [
     "B.Tech",
@@ -22,14 +20,15 @@ Map<String, List<String>> branchOptions = {
     "Electronics and Telecommunication",
     "Electrical and Electronics Engineering",
   ],
-  // "BSc.": ["Biology"],
-  // "B.Com": ["No Options"],
-  // "B.Pharma": ["No options"]
-  // "D.Pharma" : ["No options"]
+  "B.Pharma": ["N/A"],
+  "D.Pharma": ["N/A"],
+  "B.Tech Lateral": ["N/A"],
+  "B.Pharma Lateral": ["N/A"],
   "M.Tech": [
     "Computer Science and Engineering",
     "Production Engineering",
     "Digital Electronics"
   ],
+  "MBA": ['FILL MBA BRANCHES'], //TODO: Fill MBA Branches
   "M.Pharma": ["Cognosy", "Cology", "Ceutics", "Chemistry"]
 };

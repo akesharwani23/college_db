@@ -6,8 +6,11 @@ class AdmissionCandidate {
   final String courseType;
   final String course;
   final String branch;
+
+  // Fee Details
   final double feeForSem;
   final double paidByStudent;
+  final double cancellationCharge;
 
   //Personal Details
   final String name;
@@ -25,9 +28,17 @@ class AdmissionCandidate {
   final bool appearedInEntranceExam;
   final String nameEntranceExam; // N/A if not appeared
   final String rankEntranceExam; // N/A if not appeared
+  final String scoreEntranceExam; // N/A if not appeared
 
   //Other
   bool eligibleForScholarship = false;
+  final String remark;
+
+  // Admission Details
+  final String admittedBy;
+  final String admissionIncharge;
+  final String session;
+  final DateTime admissionDate;
 
   /// [AdmissionCandidate] Constructor
   ///
@@ -39,6 +50,7 @@ class AdmissionCandidate {
       required this.branch,
       required this.feeForSem,
       required this.paidByStudent,
+      required this.cancellationCharge,
       required this.name,
       required this.dob,
       required this.mobileNumber,
@@ -52,7 +64,13 @@ class AdmissionCandidate {
       required this.appearedInEntranceExam,
       required this.nameEntranceExam,
       required this.rankEntranceExam,
-      required this.eligibleForScholarship});
+      required this.eligibleForScholarship,
+      required this.remark,
+      required this.scoreEntranceExam,
+      required this.admissionDate,
+      required this.admissionIncharge,
+      required this.admittedBy,
+      required this.session});
 
   Map<String, dynamic> toMap() {
     return {
@@ -63,6 +81,7 @@ class AdmissionCandidate {
       'branch': branch,
       'feeForSem': feeForSem,
       'paidByStudent': paidByStudent,
+      'cancellationCharge': cancellationCharge,
       'name': name.toUpperCase(),
       'mobileNumber': mobileNumber,
       'parentName': parentName.toUpperCase(),
@@ -75,7 +94,13 @@ class AdmissionCandidate {
       'appearedInEntranceExam': appearedInEntranceExam,
       'nameEntranceExam': nameEntranceExam,
       'rankEntranceExam': rankEntranceExam,
-      'eligibleForScholarship': eligibleForScholarship
+      'scoreEntranceExam': scoreEntranceExam,
+      'remark': remark,
+      'eligibleForScholarship': eligibleForScholarship,
+      'admittedBy': admittedBy,
+      'admissionIncharge': admissionIncharge,
+      'session': session,
+      'admissionDate': admissionDate.toIso8601String(),
     };
   }
 
@@ -89,6 +114,7 @@ class AdmissionCandidate {
         course: data['course'],
         branch: data['branch'],
         feeForSem: data['feeForSem'],
+        cancellationCharge: data['cancellationCharge'],
         paidByStudent: data['paidByStudent'],
         name: (data['name'] as String).toUpperCase(),
         dob: DateTime.parse(data['dob']),
@@ -103,7 +129,13 @@ class AdmissionCandidate {
         appearedInEntranceExam: data['appearedInEntranceExam'],
         nameEntranceExam: data['nameEntranceExam'],
         rankEntranceExam: data['rankEntranceExam'],
-        eligibleForScholarship: data['eligibleForScholarship']);
+        scoreEntranceExam: data['scoreEntranceExam'],
+        remark: data['remark'],
+        eligibleForScholarship: data['eligibleForScholarship'],
+        admissionDate: DateTime.parse(data['admissionDate']),
+        admittedBy: data['admittedBy'],
+        admissionIncharge: data['admissionIncharge'],
+        session: data['session']);
   }
 
   String get getStatus => status;
