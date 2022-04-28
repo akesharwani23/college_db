@@ -4,27 +4,32 @@
 
 //TODO: Correct these writing. or write full name
 Map<String, List<String>> courseOptions = {
-  "UG": ["B.Tech", "B.Com", "BSc."],
-  "PG": ["M.Tech"],
+  "UG": [
+    "B.Tech",
+    "B.Pharma",
+    "D.Pharma",
+    "B.Tech Lateral",
+    "B.Pharma Lateral"
+  ],
+  "PG": ["M.Tech", "MBA", "M.Pharma"],
 };
 
 Map<String, List<String>> branchOptions = {
   "B.Tech": [
-    "CS",
+    "Computer Science and Engineering",
     "Civil Engineering",
-    "Mechanical ",
-    "Electronics",
-    "Electrical",
-    "IT"
+    "Mechanical Engineering",
+    "Electronics and Telecommunication",
+    "Electrical and Electronics Engineering",
   ],
-  "BSc.": ["Biology"],
-  "B.Com": ["No Options"],
+  // "BSc.": ["Biology"],
+  // "B.Com": ["No Options"],
+  // "B.Pharma": ["No options"]
+  // "D.Pharma" : ["No options"]
   "M.Tech": [
-    "CS",
-    "Civil Engineering",
-    "Mechanical ",
-    "Electronics",
-    "Electrical",
-    "IT"
-  ]
+    "Computer Science and Engineering",
+    "Production Engineering",
+    "Digital Electronics"
+  ],
+  "M.Pharma": ["Cognosy", "Cology", "Ceutics", "Chemistry"]
 };

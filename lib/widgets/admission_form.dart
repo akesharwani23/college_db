@@ -507,7 +507,10 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                         "CMAT",
                                         "ATMA",
                                         "MAT",
-                                        "GATE"
+                                        "GATE",
+                                        "GPAT",
+                                        "PPHT",
+                                        "CPAT"
                                       ]
                                           .map((option) => DropdownMenuItem(
                                                 value: option,
