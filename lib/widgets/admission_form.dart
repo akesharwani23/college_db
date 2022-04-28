@@ -56,13 +56,28 @@ class _AdmissionFormState extends State<AdmissionForm> {
   @override
   void initState() {
     if (widget.candidate != null) {
-      Future.delayed(const Duration(seconds: 0), () {
-        //FIXME: Ofcourse, find another way of doing this, rather than exploiting race condition.
+      // Future.delayed(const Duration(seconds: 0), () {
+      //   _formKey.currentState!
+      //       .setInternalFieldValue('name', 'Game', isSetState: true);
+      //   //FIX ME: Ofcourse, find another way of doing this, rather than exploiting race condition.
+      //   _updateLevelDependents(widget.candidate!.courseType, resetValue: false);
+      //   _updateCourseDependents(widget.candidate!.course, resetValue: false);
+      //   if (widget.candidate!.appearedInEntranceExam == false) {
+      //     _updateExamAppearanceDependents('No');
+      //   }
+      // });
+
+      WidgetsBinding.instance?.addPostFrameCallback((_) {
+        // print("WidgetsBinding");
         _updateLevelDependents(widget.candidate!.courseType, resetValue: false);
         _updateCourseDependents(widget.candidate!.course, resetValue: false);
         if (widget.candidate!.appearedInEntranceExam == false) {
           _updateExamAppearanceDependents('No');
         }
+        _formKey.currentState!.fields['course']!
+            .setValue(widget.candidate?.course);
+        _formKey.currentState!.fields['branch']!
+            .setValue(widget.candidate?.branch);
       });
     }
     super.initState();
@@ -239,7 +254,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                   width: deviceSize.width * 0.6,
                                   child: FormBuilderDropdown(
                                       name: 'course',
-                                      initialValue: candidate?.course,
+                                      // initialValue: candidate?.course,
                                       validator: (String? value) {
                                         if (value == null || value.isEmpty) {
                                           return 'Please Select Course';
@@ -269,7 +284,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                   width: deviceSize.width * 0.6,
                                   child: FormBuilderDropdown(
                                       name: 'branch',
-                                      initialValue: candidate?.branch,
+                                      // initialValue: candidate?.branch,
                                       validator: (String? value) {
                                         if (value == null || value.isEmpty) {
                                           return 'Please Select Branch';
