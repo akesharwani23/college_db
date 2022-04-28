@@ -1,9 +1,8 @@
 import 'package:college_db/api/admission_pdf_api.dart';
 import 'package:college_db/screens/admission_form_screen.dart';
-import 'package:college_db/widgets/admission_form.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:intl/intl.dart' show DateFormat;
 import '../models/admission_candidate.dart';
 import '../providers/current_user.dart';
 
@@ -86,7 +85,8 @@ class AdmissionDetailScreen extends StatelessWidget {
               ),
               const Divider(),
               textDetailElement('Name', candidate.name),
-              textDetailElement('DOB', candidate.dob.toString()),
+              textDetailElement(
+                  'DOB', DateFormat("EEE, dd/MM/yyyy").format(candidate.dob)),
               textDetailElement('Mobile Number', candidate.mobileNumber),
               textDetailElement('Parent\'s Name', candidate.parentName),
               textDetailElement(
