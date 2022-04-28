@@ -10,6 +10,12 @@ import '../providers/admission_candidates.dart';
 class AdmissionSectionScreen extends StatelessWidget {
   const AdmissionSectionScreen({Key? key}) : super(key: key);
 
+  static const Map<String, Color> _statusColor = {
+    'Confirmed': Colors.greenAccent,
+    'Provisional': Colors.yellowAccent,
+    'Registration': Colors.redAccent,
+  };
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,11 +68,8 @@ class AdmissionSectionScreen extends StatelessWidget {
                                   title: Text(candidates[index].name),
                                   subtitle: Text(candidates[index].parentName),
                                   trailing: CircleAvatar(
-                                      backgroundColor:
-                                          candidates[index].status ==
-                                                  'Confirmed'
-                                              ? Colors.greenAccent
-                                              : Colors.redAccent,
+                                      backgroundColor: _statusColor[
+                                          candidates[index].status],
                                       maxRadius: 8),
                                   onTap: () => Navigator.of(context).pushNamed(
                                       AdmissionDetailScreen.routeName,
