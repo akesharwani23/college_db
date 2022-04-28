@@ -7,7 +7,8 @@ import '../models/form_options.dart' as options;
 import '../providers/admission_candidates.dart';
 
 class AdmissionForm extends StatefulWidget {
-  AdmissionForm({Key? key}) : super(key: key);
+  final AdmissionCandidate? candidate;
+  AdmissionForm({this.candidate, Key? key}) : super(key: key);
 
   @override
   State<AdmissionForm> createState() => _AdmissionFormState();
@@ -46,6 +47,21 @@ class _AdmissionFormState extends State<AdmissionForm> {
       }
       _branchOptions = options.branchOptions[value] as List<String>;
     });
+  }
+
+  @override
+  void initState() {
+    if (widget.candidate != null) {
+      Future.delayed(const Duration(seconds: 0), () {
+        //FIXME: Ofcourse, find another way of doing this, rather than exploiting race condition.
+        _updateLevelDependents(widget.candidate!.courseType);
+        _updateCourseDependents(widget.candidate!.course);
+        if (widget.candidate!.appearedInEntranceExam == false) {
+          _updateExamAppearanceDependents('No');
+        }
+      });
+    }
+    super.initState();
   }
 
   void _submit(BuildContext context) async {
@@ -119,9 +135,19 @@ class _AdmissionFormState extends State<AdmissionForm> {
     }
   }
 
+  // @override
+  // void initState() {
+  //   if (widget.candidate != null) {
+  //     _updateLevelDependents(widget.candidate!.courseType);
+  //     _updateCourseDependents(widget.candidate!.course);
+  //   }
+  //   super.initState();
+  // }
+
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
+    var candidate = widget.candidate;
     return _isLoading
         ? Center(child: CircularProgressIndicator())
         : Padding(
@@ -155,6 +181,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                           border: InputBorder.none,
                                         ),
                                         name: 'status',
+                                        initialValue: candidate?.status,
                                         validator: (String? value) {
                                           if (value == null || value.isEmpty) {
                                             return 'Please Select status';
@@ -187,6 +214,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                   width: deviceSize.width * 0.6,
                                   child: FormBuilderDropdown(
                                       name: 'courseType',
+                                      initialValue: candidate?.courseType,
                                       validator: (String? value) {
                                         if (value == null || value.isEmpty) {
                                           return 'Please Select Level';
@@ -216,6 +244,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                   width: deviceSize.width * 0.6,
                                   child: FormBuilderDropdown(
                                       name: 'course',
+                                      initialValue: candidate?.course,
                                       validator: (String? value) {
                                         if (value == null || value.isEmpty) {
                                           return 'Please Select Course';
@@ -245,6 +274,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                   width: deviceSize.width * 0.6,
                                   child: FormBuilderDropdown(
                                       name: 'branch',
+                                      initialValue: candidate?.branch,
                                       validator: (String? value) {
                                         if (value == null || value.isEmpty) {
                                           return 'Please Select Branch';
@@ -268,6 +298,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                               padding: const EdgeInsets.all(8.0),
                               child: FormBuilderTextField(
                                 name: 'name',
+                                initialValue: candidate?.name,
                                 validator: (String? value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Name';
@@ -282,6 +313,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                               padding: const EdgeInsets.all(8.0),
                               child: FormBuilderDateTimePicker(
                                 name: 'dob',
+                                initialValue: candidate?.dob,
                                 inputType: InputType.date,
                                 initialDate: DateTime.now(),
                                 decoration: InputDecoration(
@@ -293,6 +325,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                               padding: const EdgeInsets.all(8.0),
                               child: FormBuilderTextField(
                                 name: 'mobileNumber',
+                                initialValue: candidate?.mobileNumber,
                                 validator: (String? value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Mobile Number';
@@ -308,6 +341,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                               padding: const EdgeInsets.all(8.0),
                               child: FormBuilderTextField(
                                 name: 'parentName',
+                                initialValue: candidate?.parentName,
                                 validator: (String? value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Field';
@@ -322,6 +356,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                               padding: const EdgeInsets.all(8.0),
                               child: FormBuilderTextField(
                                 name: 'parentMobileNumber',
+                                initialValue: candidate?.parentMobileNumber,
                                 validator: (String? value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Field';
@@ -337,6 +372,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                               padding: const EdgeInsets.all(8.0),
                               child: FormBuilderTextField(
                                 name: 'parentOccupation',
+                                initialValue: candidate?.parentOccupation,
                                 validator: (String? value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Field';
@@ -351,6 +387,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                               padding: const EdgeInsets.all(8.0),
                               child: FormBuilderTextField(
                                 name: 'address',
+                                initialValue: candidate?.address,
                                 maxLines: 3,
                                 validator: (String? value) {
                                   if (value == null || value.isEmpty) {
@@ -366,6 +403,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                               padding: const EdgeInsets.all(8.0),
                               child: FormBuilderTextField(
                                 name: 'prevInstitute',
+                                initialValue: candidate?.previousInstituteName,
                                 validator: (String? value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Previous Insitute Name';
@@ -380,6 +418,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                               padding: const EdgeInsets.all(8.0),
                               child: FormBuilderTextField(
                                 name: 'rollNo',
+                                initialValue: candidate?.rollNoLastExam,
                                 keyboardType: TextInputType.number,
                                 validator: (String? value) {
                                   if (value == null || value.isEmpty) {
@@ -395,6 +434,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                               padding: const EdgeInsets.all(8.0),
                               child: FormBuilderTextField(
                                 name: 'feeForSem',
+                                initialValue: candidate?.feeForSem.toString(),
                                 keyboardType: TextInputType.number,
                                 validator: (String? value) {
                                   if (value == null || value.isEmpty) {
@@ -412,6 +452,8 @@ class _AdmissionFormState extends State<AdmissionForm> {
                               padding: const EdgeInsets.all(8.0),
                               child: FormBuilderTextField(
                                 name: 'amountPaid',
+                                initialValue:
+                                    candidate?.paidByStudent.toString(),
                                 keyboardType: TextInputType.number,
                                 validator: (String? value) {
                                   if (value == null || value.isEmpty) {
@@ -429,6 +471,8 @@ class _AdmissionFormState extends State<AdmissionForm> {
                               padding: const EdgeInsets.all(8.0),
                               child: FormBuilderTextField(
                                 name: 'cancellationCharge',
+                                initialValue:
+                                    candidate?.cancellationCharge.toString(),
                                 keyboardType: TextInputType.number,
                                 validator: (String? value) {
                                   if (value == null || value.isEmpty) {
@@ -446,6 +490,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                               padding: const EdgeInsets.all(8.0),
                               child: FormBuilderTextField(
                                 name: 'remark',
+                                initialValue: candidate?.remark,
                                 maxLines: 3,
                                 validator: (String? value) {
                                   if (value == null || value.isEmpty) {
@@ -470,6 +515,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                   width: deviceSize.width * 0.6,
                                   child: FormBuilderDropdown(
                                     name: 'category',
+                                    initialValue: candidate?.category,
                                     validator: (String? value) {
                                       if (value == null || value.isEmpty) {
                                         return 'Please Select Field';
@@ -490,6 +536,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                 controlAffinity:
                                     ListTileControlAffinity.trailing,
                                 name: 'eligibleForScholarship',
+                                initialValue: candidate?.eligibleForScholarship,
                                 title: Text(
                                   'Is Candidate Eligible For Scholarship?',
                                   style: TextStyle(fontSize: 18),
@@ -510,6 +557,13 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                   width: deviceSize.width * 0.3,
                                   child: FormBuilderDropdown(
                                     name: 'examAppearance',
+                                    initialValue: candidate?.nameEntranceExam ==
+                                            null
+                                        ? null
+                                        : (candidate!.appearedInEntranceExam ==
+                                                true
+                                            ? 'Yes'
+                                            : 'No'), //FIXME: better this confusing code
                                     onChanged: _updateExamAppearanceDependents,
                                     validator: (String? value) {
                                       if (value == null || value.isEmpty) {
@@ -540,6 +594,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                     width: deviceSize.width * 0.6,
                                     child: FormBuilderDropdown(
                                       name: 'nameExam',
+                                      initialValue: candidate?.nameEntranceExam,
                                       validator: (String? value) {
                                         if (_appearedInEntranceExam) {
                                           if (value == null || value.isEmpty) {
@@ -556,7 +611,8 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                         "GATE",
                                         "GPAT",
                                         "PPHT",
-                                        "CPAT"
+                                        "CPAT",
+                                        "N/A" //FIXME: if possible
                                       ]
                                           .map((option) => DropdownMenuItem(
                                                 value: option,
@@ -572,6 +628,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: FormBuilderTextField(
                                   name: 'rankExam',
+                                  initialValue: candidate?.rankEntranceExam,
                                   validator: (String? value) {
                                     if (_appearedInEntranceExam) {
                                       if (value == null || value.isEmpty) {
@@ -590,6 +647,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: FormBuilderTextField(
                                   name: 'scoreExam',
+                                  initialValue: candidate?.rankEntranceExam,
                                   validator: (String? value) {
                                     if (_appearedInEntranceExam) {
                                       if (value == null || value.isEmpty) {
@@ -607,6 +665,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                               padding: const EdgeInsets.all(8.0),
                               child: FormBuilderTextField(
                                 name: 'admittedBy',
+                                initialValue: candidate?.admittedBy,
                                 validator: (String? value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Admitted By';
@@ -621,6 +680,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                               padding: const EdgeInsets.all(8.0),
                               child: FormBuilderTextField(
                                 name: 'admissionIncharge',
+                                initialValue: candidate?.admissionIncharge,
                                 validator: (String? value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Admission Incharge Name';
@@ -635,6 +695,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                               padding: const EdgeInsets.all(8.0),
                               child: FormBuilderTextField(
                                 name: 'session',
+                                initialValue: candidate?.session,
                                 validator: (String? value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Session';
@@ -649,7 +710,8 @@ class _AdmissionFormState extends State<AdmissionForm> {
                               padding: const EdgeInsets.all(8.0),
                               child: FormBuilderDateTimePicker(
                                 name: 'admissionDate',
-                                initialValue: DateTime.now(),
+                                initialValue:
+                                    candidate?.admissionDate ?? DateTime.now(),
                                 inputType: InputType.date,
                                 initialDate: DateTime.now(),
                                 decoration: InputDecoration(
