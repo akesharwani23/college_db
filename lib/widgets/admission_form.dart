@@ -22,28 +22,32 @@ class _AdmissionFormState extends State<AdmissionForm> {
   var _isLoading = false;
   var _appearedInEntranceExam = true;
 
-  void _updateLevelDependents(String? value) {
+  void _updateLevelDependents(String? value, {bool resetValue = true}) {
     if (value == null) {
       return;
     }
     setState(() {
-      if (_formKey.currentState!.fields['course'] != null) {
-        _formKey.currentState!.fields['course']!.reset();
-      }
-      if (_formKey.currentState!.fields['branch'] != null) {
-        _formKey.currentState!.fields['branch']!.reset();
+      if (resetValue) {
+        if (_formKey.currentState!.fields['course'] != null) {
+          _formKey.currentState!.fields['course']!.setValue(null);
+        }
+        if (_formKey.currentState!.fields['branch'] != null) {
+          _formKey.currentState!.fields['branch']!.setValue(null);
+        }
       }
       _courseOptions = options.courseOptions[value] as List<String>;
     });
   }
 
-  void _updateCourseDependents(String? value) {
+  void _updateCourseDependents(String? value, {bool resetValue = true}) {
     if (value == null) {
       return;
     }
     setState(() {
-      if (_formKey.currentState!.fields['branch'] != null) {
-        _formKey.currentState!.fields['branch']!.reset();
+      if (resetValue) {
+        if (_formKey.currentState!.fields['branch'] != null) {
+          _formKey.currentState!.fields['branch']!.setValue(null);
+        }
       }
       _branchOptions = options.branchOptions[value] as List<String>;
     });
@@ -54,8 +58,8 @@ class _AdmissionFormState extends State<AdmissionForm> {
     if (widget.candidate != null) {
       Future.delayed(const Duration(seconds: 0), () {
         //FIXME: Ofcourse, find another way of doing this, rather than exploiting race condition.
-        _updateLevelDependents(widget.candidate!.courseType);
-        _updateCourseDependents(widget.candidate!.course);
+        _updateLevelDependents(widget.candidate!.courseType, resetValue: false);
+        _updateCourseDependents(widget.candidate!.course, resetValue: false);
         if (widget.candidate!.appearedInEntranceExam == false) {
           _updateExamAppearanceDependents('No');
         }
@@ -134,15 +138,6 @@ class _AdmissionFormState extends State<AdmissionForm> {
       });
     }
   }
-
-  // @override
-  // void initState() {
-  //   if (widget.candidate != null) {
-  //     _updateLevelDependents(widget.candidate!.courseType);
-  //     _updateCourseDependents(widget.candidate!.course);
-  //   }
-  //   super.initState();
-  // }
 
   @override
   Widget build(BuildContext context) {
