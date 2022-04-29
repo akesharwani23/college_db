@@ -36,7 +36,7 @@ class AdmissionDetailScreen extends StatelessWidget {
                   if (user.isAdmin) {
                     return FloatingActionButton.extended(
                       onPressed: () {
-                        Navigator.of(context).pushNamed(
+                        Navigator.of(context).popAndPushNamed(
                             AdmissionFormScreen.routeName,
                             arguments: candidate);
                       },

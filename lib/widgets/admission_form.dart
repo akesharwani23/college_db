@@ -130,8 +130,14 @@ class _AdmissionFormState extends State<AdmissionForm> {
       setState(() {
         _isLoading = true;
       });
-      await Provider.of<AdmissionCandidates>(context, listen: false)
-          .addCandidate(candidate);
+      if (widget.candidate != null) {
+        candidate.id = widget.candidate!.id;
+        await Provider.of<AdmissionCandidates>(context, listen: false)
+            .updateCandidate(candidate);
+      } else {
+        await Provider.of<AdmissionCandidates>(context, listen: false)
+            .addCandidate(candidate);
+      }
       setState(() {
         _isLoading = false;
       });

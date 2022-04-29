@@ -60,6 +60,16 @@ class AdmissionCandidates with ChangeNotifier {
     return ref;
   }
 
+  Future<void> updateCandidate(AdmissionCandidate candidate) async {
+    if (candidate.id == null) {
+      print('>>>>Candidate with no id provided');
+      return; // FIXME: throw error that candidate with no id provided
+    }
+    final ref = await _api.updateDocument(candidate.toMap(), candidate.id!);
+    notifyListeners();
+    return ref;
+  }
+
   Stream<List<AdmissionCandidate>> getCandidateAsStream() {
     return _api.streamDataCollection.map((event) {
       var docs = event.docs;
