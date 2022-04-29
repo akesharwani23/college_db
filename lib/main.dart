@@ -3,6 +3,7 @@ import 'package:college_db/screens/admission_detail_screen.dart';
 import 'package:college_db/screens/admission_form_screen.dart';
 import 'package:college_db/screens/auth_screen.dart';
 import 'package:college_db/screens/home_screen.dart';
+import 'package:college_db/screens/staff_form_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
       routes: {
         AdmissionFormScreen.routeName: (ctx) => const AdmissionFormScreen(),
         AdmissionDetailScreen.routeName: (ctx) => const AdmissionDetailScreen(),
+        StaffFormScreen.routeName: (ctx) => const StaffFormScreen(),
       },
     );
   }

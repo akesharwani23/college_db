@@ -1,3 +1,4 @@
+import 'package:college_db/screens/staff_section_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/app_drawer.dart';
@@ -22,21 +23,7 @@ class _VerifiedHomeScreenState extends State<VerifiedHomeScreen> {
     _titles = ['Admission Section', 'Staff Section'];
     _pages = [
       const AdmissionSectionScreen(),
-      Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Icon(
-              Icons.info,
-              color: Colors.red,
-            ),
-            Text(
-              'Currently Unavailable',
-              style: TextStyle(color: Colors.red),
-            )
-          ],
-        ),
-      )
+      const StaffSectionScreen(),
     ];
     super.initState();
   }
