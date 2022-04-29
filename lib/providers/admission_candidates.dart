@@ -65,6 +65,8 @@ class AdmissionCandidates with ChangeNotifier {
       print('>>>>Candidate with no id provided');
       return; // FIXME: throw error that candidate with no id provided
     }
+    _cache.removeWhere((element) => element.id == candidate.id);
+    _cache.add(candidate);
     final ref = await _api.updateDocument(candidate.toMap(), candidate.id!);
     notifyListeners();
     return ref;
