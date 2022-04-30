@@ -3,6 +3,7 @@ import 'package:college_db/screens/admission_form_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart' show DateFormat;
+import '../api/admission_pdf_api.dart';
 import '../models/admission_candidate.dart';
 import '../providers/current_user.dart';
 
@@ -20,6 +21,7 @@ class AdmissionDetailScreen extends StatelessWidget {
           actions: [
             IconButton(
                 onPressed: () {
+                  // AdmissionPdfApi.createPdf(candidate);
                   AdmissionPdfApi.createPdf(candidate);
                 },
                 icon: const Icon(Icons.picture_as_pdf))
