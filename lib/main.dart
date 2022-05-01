@@ -12,6 +12,7 @@ import 'package:college_db/screens/supporting_staff_form_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/admission_candidates.dart';
@@ -60,6 +61,10 @@ class MyApp extends StatelessWidget {
           // buttonColor: C,
           // rgba(19,37,41,255)
           backgroundColor: Colors.amberAccent,
+          textTheme: GoogleFonts.robotoTextTheme(),
+          appBarTheme: AppBarTheme(
+              titleTextStyle: GoogleFonts.roboto(
+                  fontSize: 20, fontWeight: FontWeight.w400)),
           colorScheme:
               ColorScheme.fromSwatch().copyWith(secondary: Colors.pinkAccent)),
       routes: {

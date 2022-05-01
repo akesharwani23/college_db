@@ -69,7 +69,7 @@ class _VerifiedHomeScreenState extends State<VerifiedHomeScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.school), label: 'Admission'),
           BottomNavigationBarItem(icon: Icon(Icons.work), label: 'Staff'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.handyman_outlined), label: 'Supporting Staff'),
+              icon: Icon(Icons.groups_rounded), label: 'Supporting Staff'),
           BottomNavigationBarItem(
               icon: Icon(Icons.person), label: 'Student Section')
         ],
