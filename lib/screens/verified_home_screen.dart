@@ -1,4 +1,6 @@
 import 'package:college_db/screens/staff_section_screen.dart';
+import 'package:college_db/screens/student_section_screen.dart';
+import 'package:college_db/screens/supporting_staff_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/app_drawer.dart';
@@ -14,16 +16,23 @@ class VerifiedHomeScreen extends StatefulWidget {
 
 class _VerifiedHomeScreenState extends State<VerifiedHomeScreen> {
   List<Widget> _pages = [];
-  List<String> _titles = [];
+  List<String> _appBarTitle = [];
   // List<Map<String, dynamic>> _value = [{}];
   int _selectedPageIndex = 0;
 
   @override
   void initState() {
-    _titles = ['Admission Section', 'Staff Section'];
+    _appBarTitle = [
+      'Admission Section',
+      'Staff Section',
+      'Support Staff Section',
+      'Student Section'
+    ];
     _pages = [
       const AdmissionSectionScreen(),
       const StaffSectionScreen(),
+      const SupportingStaffScreen(),
+      const StudentSectionScreen(),
     ];
     super.initState();
   }
@@ -40,7 +49,7 @@ class _VerifiedHomeScreenState extends State<VerifiedHomeScreen> {
       // backgroundColor: Colors.grey[300],
       drawer: const AppDrawer(),
       appBar: AppBar(
-        title: Text(_titles[_selectedPageIndex]),
+        title: Text(_appBarTitle[_selectedPageIndex]),
         actions: [
           IconButton(
               onPressed: () {
@@ -59,6 +68,10 @@ class _VerifiedHomeScreenState extends State<VerifiedHomeScreen> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.school), label: 'Admission'),
           BottomNavigationBarItem(icon: Icon(Icons.work), label: 'Staff'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.handyman_outlined), label: 'Supporting Staff'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.person), label: 'Student Section')
         ],
       ),
     );
