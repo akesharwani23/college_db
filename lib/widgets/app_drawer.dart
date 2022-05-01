@@ -29,10 +29,21 @@ class AppDrawer extends StatelessWidget {
     return Drawer(
       child: Container(
         child: Column(children: [
+          SizedBox(
+            height: 80,
+          ),
+          CircleAvatar(
+            backgroundColor: Colors.blue,
+            minRadius: 55,
+            child: Icon(
+              Icons.person_outline_rounded,
+              size: 100,
+            ),
+          ),
           Stack(
             children: [
               Container(
-                height: 110,
+                height: 40,
                 width: double.infinity,
               ),
               FutureBuilder(
@@ -47,6 +58,9 @@ class AppDrawer extends StatelessWidget {
               ),
             ],
             alignment: Alignment.bottomCenter,
+          ),
+          SizedBox(
+            height: 4,
           ),
           StreamBuilder<CurrentUser?>(
             stream: Provider.of<CurrentUserProvider>(context).cachedUser,
