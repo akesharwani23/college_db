@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:college_db/providers/current_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -27,73 +28,69 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Container(
-        child: Column(children: [
-          SizedBox(
-            height: 80,
+      child: Column(children: [
+        const SizedBox(
+          height: 80,
+        ),
+        const CircleAvatar(
+          backgroundColor: Colors.blue,
+          foregroundColor: Colors.white70,
+          minRadius: 52,
+          child: FaIcon(
+            FontAwesomeIcons.userAstronaut,
+            size: 65,
           ),
-          CircleAvatar(
-            backgroundColor: Colors.blue,
-            minRadius: 55,
-            child: Icon(
-              Icons.person_outline_rounded,
-              size: 100,
+        ),
+        Stack(
+          children: [
+            const SizedBox(
+              height: 40,
+              width: double.infinity,
             ),
-          ),
-          Stack(
-            children: [
-              Container(
-                height: 40,
-                width: double.infinity,
+            FutureBuilder(
+              future: _getUserEmail(),
+              builder: (ctx, text) => Text(
+                'Email: ${text.data}',
+                style: const TextStyle(fontSize: 18),
               ),
-              FutureBuilder(
-                future: _getUserEmail(),
-                builder: (ctx, text) => Text(
-                  'Email: ${text.data}',
-                  style: TextStyle(
+            ),
+          ],
+          alignment: Alignment.bottomCenter,
+        ),
+        const SizedBox(
+          height: 4,
+        ),
+        StreamBuilder<CurrentUser?>(
+          stream: Provider.of<CurrentUserProvider>(context).cachedUser,
+          builder: (context, userStream) {
+            if (userStream.connectionState == ConnectionState.active ||
+                userStream.connectionState == ConnectionState.done) {
+              if (userStream.hasData) {
+                // got non-null currentUser
+                final user = userStream.data!;
+                return Text(
+                  'Name: ${user.name}',
+                  style: const TextStyle(
                       // color: Colors.white,
                       // fontWeight: FontWeight.bold,
                       fontSize: 18),
-                ),
-              ),
-            ],
-            alignment: Alignment.bottomCenter,
-          ),
-          SizedBox(
-            height: 4,
-          ),
-          StreamBuilder<CurrentUser?>(
-            stream: Provider.of<CurrentUserProvider>(context).cachedUser,
-            builder: (context, userStream) {
-              if (userStream.connectionState == ConnectionState.active ||
-                  userStream.connectionState == ConnectionState.done) {
-                if (userStream.hasData) {
-                  // got non-null currentUser
-                  final user = userStream.data!;
-                  return Text(
-                    'Name: ${user.name}',
-                    style: const TextStyle(
-                        // color: Colors.white,
-                        // fontWeight: FontWeight.bold,
-                        fontSize: 18),
-                  );
-                }
+                );
               }
-              return const SizedBox.shrink();
-            },
+            }
+            return const SizedBox.shrink();
+          },
+        ),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(8),
+          child: ElevatedButton.icon(
+            onPressed: _signOut,
+            style: ElevatedButton.styleFrom(primary: Colors.transparent),
+            icon: const Icon(Icons.arrow_back),
+            label: const Text('Sign out'),
           ),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(8),
-            child: ElevatedButton.icon(
-              onPressed: _signOut,
-              style: ElevatedButton.styleFrom(primary: Colors.transparent),
-              icon: const Icon(Icons.arrow_back),
-              label: const Text('Sign out'),
-            ),
-          ),
-        ]),
-      ),
+        ),
+      ]),
     );
   }
 }
