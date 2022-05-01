@@ -4,6 +4,7 @@ import 'package:college_db/models/staff_member.dart';
 import 'package:college_db/screens/staff_detail_screen.dart';
 import 'package:college_db/screens/staff_form_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/current_user.dart';
@@ -14,6 +15,7 @@ class StaffSectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const blueShades = [100, 200, 300, 400, 600, 700, 800, 900];
     return Scaffold(
         floatingActionButton: StreamBuilder<CurrentUser?>(
             stream: Provider.of<CurrentUserProvider>(context).cachedUser,
@@ -60,10 +62,12 @@ class StaffSectionScreen extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(8),
                               child: ListTile(
-                                  leading: Icon(Icons.person,
-                                      size: 40,
-                                      color: Colors.primaries[Random()
-                                          .nextInt(Colors.primaries.length)]),
+                                  leading: FaIcon(
+                                    FontAwesomeIcons.solidCircleUser,
+                                    size: 40,
+                                    color: Colors.blue[blueShades[
+                                        Random().nextInt(blueShades.length)]],
+                                  ),
                                   title: Text(members[index].name),
                                   subtitle: Text(members[index].subDepartment),
                                   trailing: Text(

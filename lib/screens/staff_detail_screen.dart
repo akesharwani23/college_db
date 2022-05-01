@@ -14,7 +14,6 @@ class StaffDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     StaffMember member =
         ModalRoute.of(context)!.settings.arguments as StaffMember;
-    var deviceSize = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(title: const Text('Staff Details')),
         floatingActionButton: StreamBuilder<CurrentUser?>(
@@ -56,6 +55,13 @@ class StaffDetailScreen extends StatelessWidget {
               alignment: Alignment.center,
               padding: const EdgeInsets.all(8),
             ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Divider(
+                thickness: 1,
+                color: Colors.black,
+              ),
+            ),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -68,23 +74,23 @@ class StaffDetailScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    margin: EdgeInsets.all(8),
+                    margin: const EdgeInsets.all(8),
                     child: ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.all(8)),
+                            padding: const EdgeInsets.all(8)),
                         onPressed: () {
                           launchUrl(Uri(
                             scheme: 'tel',
                             path: '+91' + member.contactNo,
                           ));
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.call,
                           size: 24,
                         ),
                         label: Text(
                           'Call ${member.contactNo}',
-                          style: TextStyle(fontSize: 16),
+                          style: const TextStyle(fontSize: 16),
                         )),
                   ),
                 )
@@ -95,7 +101,7 @@ class StaffDetailScreen extends StatelessWidget {
   }
 
   Widget _detailBox(String title, String detail) {
-    final style = TextStyle(fontSize: 18);
+    const style = TextStyle(fontSize: 18);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -104,11 +110,11 @@ class StaffDetailScreen extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: Text(
               title,
-              style: style,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             width: 120,
           ),
-          Container(
+          const SizedBox(
             child: Text(
               ':',
               style: style,

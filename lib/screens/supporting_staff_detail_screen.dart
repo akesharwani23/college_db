@@ -76,7 +76,7 @@ class SupportingStaffDetailScreen extends StatelessWidget {
   Widget _detailBox(String title, String detail) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0),
         child: Card(
           elevation: 3,
           child: Container(
@@ -89,11 +89,11 @@ class SupportingStaffDetailScreen extends StatelessWidget {
                 Divider(),
                 Text(
                   '${detail}',
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 )
               ],
             ),
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           ),
         ),
       ),

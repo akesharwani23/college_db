@@ -2,6 +2,7 @@ import 'package:college_db/screens/staff_section_screen.dart';
 import 'package:college_db/screens/student_section_screen.dart';
 import 'package:college_db/screens/supporting_staff_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../widgets/app_drawer.dart';
 import '../widgets/search_admission_record.dart';
@@ -66,12 +67,21 @@ class _VerifiedHomeScreenState extends State<VerifiedHomeScreen> {
         onTap: _selectPage,
         currentIndex: _selectedPageIndex,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.school), label: 'Admission'),
-          BottomNavigationBarItem(icon: Icon(Icons.work), label: 'Staff'),
+          // BottomNavigationBarItem(icon: Icon(Icons.school), label: 'Admission'),
+          // BottomNavigationBarItem(icon: Icon(Icons.work), label: 'Staff'),
+          // BottomNavigationBarItem(
+          //     icon: Icon(Icons.groups_rounded), label: 'Supporting Staff'),
+          // BottomNavigationBarItem(
+          //     icon: Icon(Icons.person), label: 'Student Section'),
+          BottomNavigationBarItem(
+              icon: FaIcon(FontAwesomeIcons.graduationCap), label: 'Admission'),
+          BottomNavigationBarItem(
+              icon: FaIcon(FontAwesomeIcons.chalkboardUser), label: 'Staff'),
           BottomNavigationBarItem(
               icon: Icon(Icons.groups_rounded), label: 'Supporting Staff'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.person), label: 'Student Section')
+              icon: FaIcon(FontAwesomeIcons.userGraduate),
+              label: 'Student Section')
         ],
       ),
     );
