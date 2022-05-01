@@ -1,3 +1,4 @@
+import 'package:college_db/models/staff_member.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/staff_form.dart';
@@ -8,11 +9,12 @@ class StaffFormScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var member = ModalRoute.of(context)!.settings.arguments as StaffMember?;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Staff Form'),
       ),
-      body: StaffForm(),
+      body: StaffForm(member: member),
     );
   }
 }

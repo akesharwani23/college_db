@@ -32,3 +32,16 @@ Map<String, List<String>> branchOptions = {
   "MBA": ['FILL MBA BRANCHES'], //TODO: Fill MBA Branches
   "M.Pharma": ["Cognosy", "Cology", "Ceutics", "Chemistry"]
 };
+
+Map<String, List<String>> department = {
+  "CEC": [
+    "Computer Science and Engineering",
+    "Civil Engineering",
+    "Mechanical Engineering",
+    "Electronics and Telecommunication",
+    "Electrical and Electronics Engineering",
+  ],
+  "CCSC": ["Commerce", "B.Sc", "B.A.", "Computer Application"],
+  "SOP": ["N/A"],
+  "Homeopathic": ["N/A"]
+};
