@@ -121,9 +121,11 @@ class StaffDetailScreen extends StatelessWidget {
             ),
             width: 10,
           ),
-          Text(
-            detail,
-            style: style,
+          Flexible(
+            child: Text(
+              detail,
+              style: style,
+            ),
           )
         ],
         crossAxisAlignment: CrossAxisAlignment.start,
