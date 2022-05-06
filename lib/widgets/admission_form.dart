@@ -729,7 +729,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                 initialValue:
                                     candidate?.admissionDate ?? DateTime.now(),
                                 inputType: InputType.date,
-                                initialDate: DateTime.now(),
+                                initialDate: DateUtils.dateOnly(DateTime.now()),
                                 decoration: InputDecoration(
                                     labelText: 'Date Of Admission',
                                     suffixIcon: Icon(Icons.calendar_month)),
