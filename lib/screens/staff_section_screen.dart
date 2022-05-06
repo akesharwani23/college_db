@@ -1,12 +1,10 @@
-import 'dart:math';
-
-import 'package:college_db/models/staff_member.dart';
-import 'package:college_db/screens/staff_detail_screen.dart';
-import 'package:college_db/screens/staff_form_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../models/staff_member.dart';
+import '../screens/staff_detail_screen.dart';
+import '../screens/staff_form_screen.dart';
+import '../widgets/member_list_tile.dart';
 import '../providers/current_user.dart';
 import '../providers/staff_members.dart';
 
@@ -15,7 +13,6 @@ class StaffSectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const blueShades = [100, 200, 300, 400, 600, 700, 800, 900];
     return Scaffold(
         floatingActionButton: StreamBuilder<CurrentUser?>(
             stream: Provider.of<CurrentUserProvider>(context).cachedUser,
@@ -56,29 +53,11 @@ class StaffSectionScreen extends StatelessWidget {
                       child: ListView.builder(
                         itemCount: members!.length,
                         itemBuilder: (context, index) {
-                          return Card(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 4),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: ListTile(
-                                  leading: FaIcon(
-                                    FontAwesomeIcons.solidCircleUser,
-                                    size: 40,
-                                    color: Colors.blue[blueShades[
-                                        Random().nextInt(blueShades.length)]],
-                                  ),
-                                  title: Text(members[index].name),
-                                  subtitle: Text(members[index].subDepartment),
-                                  trailing: Text(
-                                    members[index].department,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  onTap: () => Navigator.of(context).pushNamed(
-                                      StaffDetailScreen.routeName,
-                                      arguments: members[index])),
-                            ),
+                          return InkWell(
+                            child: MemberListTile(member: members[index]),
+                            onTap: () => Navigator.of(context).pushNamed(
+                                StaffDetailScreen.routeName,
+                                arguments: members[index]),
                           );
                         },
                       ),

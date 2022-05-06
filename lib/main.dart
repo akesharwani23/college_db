@@ -1,21 +1,25 @@
-import 'package:college_db/providers/current_user.dart';
-import 'package:college_db/providers/staff_members.dart';
-import 'package:college_db/providers/supporting_staff_members.dart';
-import 'package:college_db/screens/admission_detail_screen.dart';
-import 'package:college_db/screens/admission_form_screen.dart';
-import 'package:college_db/screens/auth_screen.dart';
-import 'package:college_db/screens/home_screen.dart';
-import 'package:college_db/screens/staff_detail_screen.dart';
-import 'package:college_db/screens/staff_form_screen.dart';
-import 'package:college_db/screens/supporting_staff_detail_screen.dart';
-import 'package:college_db/screens/supporting_staff_form_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'providers/admission_candidates.dart';
+import './providers/current_user.dart';
+import './providers/staff_members.dart';
+import './providers/supporting_staff_members.dart';
+import './providers/admission_candidates.dart';
+
+import './screens/admission_search_by_date.dart';
+import './screens/staff_search_by_department_screen.dart';
+import './screens/admission_detail_screen.dart';
+import './screens/admission_form_screen.dart';
+import './screens/admission_search_by_branch.dart';
+import './screens/auth_screen.dart';
+import './screens/home_screen.dart';
+import './screens/staff_detail_screen.dart';
+import './screens/staff_form_screen.dart';
+import './screens/supporting_staff_detail_screen.dart';
+import './screens/supporting_staff_form_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,7 +50,7 @@ class MyApp extends StatelessWidget {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return HomeScreen();
+              return const HomeScreen();
             } else {
               return AuthScreen();
             }
@@ -76,6 +80,11 @@ class MyApp extends StatelessWidget {
             const SupportingStaffDetailScreen(),
         SupportingStaffFormScreen.routeName: (ctx) =>
             const SupportingStaffFormScreen(),
+        StaffSearchByDepartmentScreen.routeName: (ctx) =>
+            const StaffSearchByDepartmentScreen(),
+        AdmissionSearchByDate.routeName: (ctx) => const AdmissionSearchByDate(),
+        AdmissionSearchByBranch.routeName: (ctx) =>
+            const AdmissionSearchByBranch(),
       },
     );
   }

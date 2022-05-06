@@ -51,6 +51,36 @@ class StaffMembers with ChangeNotifier {
     });
   }
 
+  Stream<List<StaffMember>> getMembersWithSubDepartment(String subDepartment) {
+    return _api.ref
+        .where('subDepartment', isEqualTo: subDepartment)
+        .snapshots()
+        .map((event) {
+      var docs = event.docs;
+      return docs.map((doc) {
+        var member = StaffMember.fromMap(doc.data() as Map<String, dynamic>);
+        member.id = doc.id;
+        return member;
+      }).toList();
+    });
+  }
+
+  Stream<List<StaffMember>> getMembersWithDepartmentAndSubDepartment(
+      {required String department, required String subDepartment}) {
+    return _api.ref
+        .where('department', isEqualTo: department)
+        .where('subDepartment', isEqualTo: subDepartment)
+        .snapshots()
+        .map((event) {
+      var docs = event.docs;
+      return docs.map((doc) {
+        var member = StaffMember.fromMap(doc.data() as Map<String, dynamic>);
+        member.id = doc.id;
+        return member;
+      }).toList();
+    });
+  }
+
   Future<DocumentReference> addMember(StaffMember member) async {
     final ref = await _api.addDocument(member.toMap());
     notifyListeners();

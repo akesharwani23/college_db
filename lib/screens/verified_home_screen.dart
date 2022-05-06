@@ -1,12 +1,16 @@
-import 'package:college_db/screens/staff_section_screen.dart';
-import 'package:college_db/screens/student_section_screen.dart';
-import 'package:college_db/screens/supporting_staff_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../screens/admission_search_by_date.dart';
+import '../widgets/staff_search_by_name.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/search_admission_record.dart';
-import 'admission_section_screen.dart';
+import './staff_search_by_department_screen.dart';
+import './staff_section_screen.dart';
+import './student_section_screen.dart';
+import './supporting_staff_screen.dart';
+import './admission_search_by_branch.dart';
+import './admission_section_screen.dart';
 
 class VerifiedHomeScreen extends StatefulWidget {
   const VerifiedHomeScreen({Key? key}) : super(key: key);
@@ -18,7 +22,6 @@ class VerifiedHomeScreen extends StatefulWidget {
 class _VerifiedHomeScreenState extends State<VerifiedHomeScreen> {
   List<Widget> _pages = [];
   List<String> _appBarTitle = [];
-  // List<Map<String, dynamic>> _value = [{}];
   int _selectedPageIndex = 0;
 
   @override
@@ -47,7 +50,6 @@ class _VerifiedHomeScreenState extends State<VerifiedHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.grey[300],
       drawer: const AppDrawer(),
       appBar: AppBar(
         title: Text(_appBarTitle[_selectedPageIndex]),
@@ -55,8 +57,10 @@ class _VerifiedHomeScreenState extends State<VerifiedHomeScreen> {
           IconButton(
               onPressed: () {
                 if (_selectedPageIndex == 0) {
-                  showSearch(
-                      context: context, delegate: SearchAdmissionRecord());
+                  _showSearchOptionsAdmissionSection();
+                }
+                if (_selectedPageIndex == 1) {
+                  _showSearchOptionsStaffSection();
                 }
               },
               icon: const Icon(Icons.search))
@@ -67,12 +71,6 @@ class _VerifiedHomeScreenState extends State<VerifiedHomeScreen> {
         onTap: _selectPage,
         currentIndex: _selectedPageIndex,
         items: const [
-          // BottomNavigationBarItem(icon: Icon(Icons.school), label: 'Admission'),
-          // BottomNavigationBarItem(icon: Icon(Icons.work), label: 'Staff'),
-          // BottomNavigationBarItem(
-          //     icon: Icon(Icons.groups_rounded), label: 'Supporting Staff'),
-          // BottomNavigationBarItem(
-          //     icon: Icon(Icons.person), label: 'Student Section'),
           BottomNavigationBarItem(
               icon: FaIcon(FontAwesomeIcons.graduationCap), label: 'Admission'),
           BottomNavigationBarItem(
@@ -85,5 +83,75 @@ class _VerifiedHomeScreenState extends State<VerifiedHomeScreen> {
         ],
       ),
     );
+  }
+
+  void _showSearchOptionsAdmissionSection() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return SizedBox(
+            height: 200,
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ListTile(
+                    leading: const FaIcon(FontAwesomeIcons.solidAddressBook),
+                    title: const Text('Search By Name'),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      showSearch(
+                          context: context, delegate: SearchAdmissionRecord());
+                    },
+                  ),
+                  ListTile(
+                    leading: const FaIcon(FontAwesomeIcons.graduationCap),
+                    title: const Text('Search By Course & Branch'),
+                    onTap: () {
+                      Navigator.of(context)
+                          .popAndPushNamed(AdmissionSearchByBranch.routeName);
+                    },
+                  ),
+                  ListTile(
+                    leading: const FaIcon(FontAwesomeIcons.calendarDays),
+                    title: const Text('Search By Admission Date'),
+                    onTap: () {
+                      Navigator.of(context)
+                          .popAndPushNamed(AdmissionSearchByDate.routeName);
+                    },
+                  ),
+                ]),
+          );
+        });
+  }
+
+  void _showSearchOptionsStaffSection() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return SizedBox(
+            height: 140,
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ListTile(
+                    leading: const FaIcon(FontAwesomeIcons.solidAddressBook),
+                    title: const Text('Search By Name'),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      showSearch(
+                          context: context, delegate: StaffSearchByName());
+                    },
+                  ),
+                  ListTile(
+                    leading: const FaIcon(FontAwesomeIcons.calendarDays),
+                    title: const Text('Search By Department'),
+                    onTap: () {
+                      Navigator.of(context).popAndPushNamed(
+                          StaffSearchByDepartmentScreen.routeName);
+                    },
+                  ),
+                ]),
+          );
+        });
   }
 }
