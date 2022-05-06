@@ -19,7 +19,7 @@ class StaffMember {
 
   Map<String, dynamic> toMap() {
     return {
-      'name': name,
+      'name': name.toUpperCase(),
       'qualification': qualification,
       'department': department,
       'experience': experience,
