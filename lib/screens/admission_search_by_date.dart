@@ -42,6 +42,7 @@ class _AdmissionSearchByDateState extends State<AdmissionSearchByDate> {
                     final date = await _showDatePicker(context);
                     setState(() {
                       _selectedDate = date;
+                      _candidates.clear();
                     });
                   },
                   icon: const Icon(Icons.calendar_month),
