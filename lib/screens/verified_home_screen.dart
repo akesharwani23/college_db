@@ -67,6 +67,9 @@ class _VerifiedHomeScreenState extends State<VerifiedHomeScreen> {
                 if (_selectedPageIndex == 2) {
                   _showSearchOptionsSupportingStaffSection();
                 }
+                if (_selectedPageIndex == 3) {
+                  _showSearchOptionsStudentSection();
+                }
               },
               icon: const Icon(Icons.search))
         ],
@@ -127,6 +130,10 @@ class _VerifiedHomeScreenState extends State<VerifiedHomeScreen> {
                 ]),
           );
         });
+  }
+
+  void _showSearchOptionsStudentSection() {
+    showSearch(context: context, delegate: SearchAdmissionRecord());
   }
 
   void _showSearchOptionsStaffSection() {
