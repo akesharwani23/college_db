@@ -1,3 +1,4 @@
+import 'package:college_db/screens/supporting_staff_search_by_department_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -5,6 +6,7 @@ import '../screens/admission_search_by_date.dart';
 import '../widgets/staff_search_by_name.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/search_admission_record.dart';
+import '../widgets/supporting_staff_search_by_name.dart';
 import './staff_search_by_department_screen.dart';
 import './staff_section_screen.dart';
 import './student_section_screen.dart';
@@ -61,6 +63,9 @@ class _VerifiedHomeScreenState extends State<VerifiedHomeScreen> {
                 }
                 if (_selectedPageIndex == 1) {
                   _showSearchOptionsStaffSection();
+                }
+                if (_selectedPageIndex == 2) {
+                  _showSearchOptionsSupportingStaffSection();
                 }
               },
               icon: const Icon(Icons.search))
@@ -148,6 +153,38 @@ class _VerifiedHomeScreenState extends State<VerifiedHomeScreen> {
                     onTap: () {
                       Navigator.of(context).popAndPushNamed(
                           StaffSearchByDepartmentScreen.routeName);
+                    },
+                  ),
+                ]),
+          );
+        });
+  }
+
+  void _showSearchOptionsSupportingStaffSection() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return SizedBox(
+            height: 140,
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ListTile(
+                    leading: const FaIcon(FontAwesomeIcons.solidAddressBook),
+                    title: const Text('Search By Name'),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      showSearch(
+                          context: context,
+                          delegate: SupportingStaffSearchByName());
+                    },
+                  ),
+                  ListTile(
+                    leading: const FaIcon(FontAwesomeIcons.calendarDays),
+                    title: const Text('Search By Department'),
+                    onTap: () {
+                      Navigator.of(context).popAndPushNamed(
+                          SupportingStaffSearchByDepartmentScreen.routeName);
                     },
                   ),
                 ]),

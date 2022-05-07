@@ -1,3 +1,4 @@
+import 'package:college_db/screens/supporting_staff_search_by_department_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -85,6 +86,8 @@ class MyApp extends StatelessWidget {
         AdmissionSearchByDate.routeName: (ctx) => const AdmissionSearchByDate(),
         AdmissionSearchByBranch.routeName: (ctx) =>
             const AdmissionSearchByBranch(),
+        SupportingStaffSearchByDepartmentScreen.routeName: (ctx) =>
+            const SupportingStaffSearchByDepartmentScreen(),
       },
     );
   }
