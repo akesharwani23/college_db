@@ -8,6 +8,8 @@ class StaffMembers with ChangeNotifier {
   final ServicesApi _api = ServicesApi('staff');
   List<StaffMember> _cache = [];
 
+  List<StaffMember> get staffMemberCache => _cache.toList();
+
   Stream<List<StaffMember>> getMembers({final int limit = 10}) {
     return _api.ref.limit(limit).snapshots().map((event) {
       var docs = event.docs;
