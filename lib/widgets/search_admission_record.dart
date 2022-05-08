@@ -10,7 +10,7 @@ class SearchAdmissionRecord extends SearchDelegate<AdmissionCandidate?> {
   List<Widget>? buildActions(BuildContext context) {
     return [
       IconButton(
-        icon: Icon(Icons.clear),
+        icon: const Icon(Icons.clear),
         onPressed: () {
           query = '';
         },
@@ -29,6 +29,9 @@ class SearchAdmissionRecord extends SearchDelegate<AdmissionCandidate?> {
 
   @override
   Widget buildResults(BuildContext context) {
+    if (query.trim().isEmpty) {
+      return const Center(child: Text('NO RESULT'));
+    }
     return StreamBuilder<List<AdmissionCandidate>>(
       stream: Provider.of<AdmissionCandidates>(context)
           .getCandidatesWithNameStartingFrom(query.trim()),
@@ -64,31 +67,18 @@ class SearchAdmissionRecord extends SearchDelegate<AdmissionCandidate?> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return StreamBuilder<List<AdmissionCandidate>>(
-      stream: Provider.of<AdmissionCandidates>(context).getCandidateAsStream(),
-      builder: (context, candidatesSnapshot) {
-        if (candidatesSnapshot.hasData) {
-          final candidates = candidatesSnapshot.data;
-          return ListView.builder(
-            itemCount: candidatesSnapshot.data!.length,
-            itemBuilder: (context, index) => ListTile(
-                leading: const Icon(Icons.person),
-                title: Text(candidates![index].name),
-                subtitle: Text(candidates[index].parentName),
-                onTap: () {
-                  Navigator.of(context).pushReplacementNamed(
-                      AdmissionDetailScreen.routeName,
-                      arguments: candidates[index]);
-                }),
-          );
-        }
-        return const Center(
-          child: Text(
-            'No Data',
-            style: TextStyle(fontSize: 18),
-          ),
-        );
-      },
+    final candidates = Provider.of<AdmissionCandidates>(context).candidateCache;
+    return ListView.builder(
+      itemCount: candidates.length,
+      itemBuilder: (context, index) => ListTile(
+          leading: const Icon(Icons.person),
+          title: Text(candidates[index].name),
+          subtitle: Text(candidates[index].parentName),
+          onTap: () {
+            Navigator.of(context).pushReplacementNamed(
+                AdmissionDetailScreen.routeName,
+                arguments: candidates[index]);
+          }),
     );
   }
 }

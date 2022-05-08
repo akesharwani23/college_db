@@ -7,6 +7,8 @@ import '../models/admission_candidate.dart';
 class AdmissionCandidates with ChangeNotifier {
   final ServicesApi _api = ServicesApi('admissions');
   List<AdmissionCandidate> _cache = [];
+
+  List<AdmissionCandidate> get candidateCache => _cache;
   // List<DocumentSnapshot<Object?>> _cachedSnapshots = [];
 
   // Future<List<AdmissionCandidate>> getCandidates(
@@ -44,10 +46,10 @@ class AdmissionCandidates with ChangeNotifier {
       yield _cache;
     }
     final candidates = getCandidates();
-    yield* candidates;
-    await for (final value in candidates) {
+    candidates.listen((value) {
       _cache = value;
-    }
+    });
+    yield* candidates;
   }
 
   void updateCache() {}
@@ -62,6 +64,7 @@ class AdmissionCandidates with ChangeNotifier {
 
   Stream<List<AdmissionCandidate>> getCandidatesWithNameStartingFrom(
       String name) {
+    //TODO: can be optimized for loadMore (PAGINATION)
     return _api.ref
         .where('name',
             isGreaterThanOrEqualTo: name.toUpperCase(),
