@@ -57,10 +57,7 @@ class _StudentSectionScreenState extends State<StudentSectionScreen> {
                               padding: const EdgeInsets.all(8),
                               child: ListTile(
                                   title: Text(_candidates[index].name),
-                                  // subtitle: Text(_candidates[index].parentName),
-                                  subtitle: Text(DateFormat('EEE, dd-MM-yyyy')
-                                      .format(
-                                          _candidates[index].admissionDate)),
+                                  subtitle: Text(_candidates[index].parentName),
                                   trailing: CircleAvatar(
                                       backgroundColor:
                                           StudentSectionScreen._statusColor[
