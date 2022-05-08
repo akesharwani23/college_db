@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import './supporting_staff_form_screen.dart';
 import '../models/staff_member.dart';
@@ -13,9 +14,8 @@ class SupportingStaffDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     StaffMember member =
         ModalRoute.of(context)!.settings.arguments as StaffMember;
-    var deviceSize = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: AppBar(title: const Text('Staff Details')),
+        appBar: AppBar(title: const Text('Supporting Staff Details')),
         floatingActionButton: StreamBuilder<CurrentUser?>(
             stream: Provider.of<CurrentUserProvider>(context).cachedUser,
             builder: (context, userStream) {
@@ -44,58 +44,91 @@ class SupportingStaffDetailScreen extends StatelessWidget {
             }),
         body: Column(
           children: [
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Card(
-                  elevation: 3,
-                  child: Container(
-                    child: Text(
-                      member.name,
-                      style: const TextStyle(fontSize: 18),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  ),
-                ),
+            Container(
+              child: Text(
+                member.name,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+              // color: ,
+              width: double.infinity,
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(8),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Divider(
+                thickness: 1,
+                color: Colors.black,
               ),
             ),
-            Center(
-              child: Text('Department: ${member.department}'),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _detailBox('Department', member.department),
+                _detailBox('Sub-department', member.subDepartment),
+                _detailBox('Qualification', member.qualification),
+                _detailBox('Experience', member.experience),
+                _detailBox('Address', member.address),
+                // _detailBox('Contact No', member.contactNo),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    margin: const EdgeInsets.all(8),
+                    child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.all(8)),
+                        onPressed: () {
+                          launchUrl(Uri(
+                            scheme: 'tel',
+                            path: '+91' + member.contactNo,
+                          ));
+                        },
+                        icon: const Icon(
+                          Icons.call,
+                          size: 24,
+                        ),
+                        label: Text(
+                          'Call ${member.contactNo}',
+                          style: const TextStyle(fontSize: 16),
+                        )),
+                  ),
+                )
+              ],
             ),
-            Center(
-              child: Text('Sub-Department: ${member.subDepartment}'),
-            ),
-            _detailBox('Qualification', member.qualification),
-            _detailBox('Experience', member.experience),
-            _detailBox('Address', member.address),
-            _detailBox('Contact No', member.contactNo)
           ],
         ));
   }
 
   Widget _detailBox(String title, String detail) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0),
-        child: Card(
-          elevation: 3,
-          child: Container(
-            child: Column(
-              children: [
-                Text(
-                  '$title',
-                  style: const TextStyle(fontSize: 20),
-                ),
-                Divider(),
-                Text(
-                  '${detail}',
-                  style: const TextStyle(fontSize: 16),
-                )
-              ],
+    const style = TextStyle(fontSize: 18);
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          Container(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              title,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            width: 120,
           ),
-        ),
+          const SizedBox(
+            child: Text(
+              ':',
+              style: style,
+            ),
+            width: 10,
+          ),
+          Flexible(
+            child: Text(
+              detail,
+              style: style,
+            ),
+          )
+        ],
+        crossAxisAlignment: CrossAxisAlignment.start,
       ),
     );
   }
