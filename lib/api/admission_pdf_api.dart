@@ -50,9 +50,9 @@ class AdmissionPdfApi {
                       child: Container(
                           height: 50,
                           width: 50,
-                          decoration: BoxDecoration(
-                            border: Border.all(),
-                          ),
+                          // decoration: BoxDecoration(
+                          //   border: Border.all(),
+                          // ),
                           child: Image(MemoryImage(imagePng)))),
                   SizedBox(width: 15),
                   Column(children: [
