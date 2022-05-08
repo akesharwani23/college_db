@@ -8,23 +8,26 @@ class StaffMembers with ChangeNotifier {
   final ServicesApi _api = ServicesApi('staff');
   List<StaffMember> _cache = [];
 
-  Future<List<StaffMember>> getMembers({final int limit = 10}) async =>
-      await _api.getDataCollection
-          .then((snapshots) => snapshots.docs)
-          .then(((docSnapshots) => docSnapshots.map((element) {
-                var member =
-                    StaffMember.fromMap(element.data() as Map<String, dynamic>);
-                member.id = element.id;
-                return member;
-              }).toList()));
+  Stream<List<StaffMember>> getMembers({final int limit = 10}) {
+    return _api.ref.limit(limit).snapshots().map((event) {
+      var docs = event.docs;
+      return docs.map((doc) {
+        var member = StaffMember.fromMap(doc.data() as Map<String, dynamic>);
+        member.id = doc.id;
+        return member;
+      }).toList();
+    });
+  }
 
   Stream<List<StaffMember>> get cachedMembers async* {
-    if (!_cache.isEmpty) {
+    if (_cache.isNotEmpty) {
       yield _cache;
     }
-    final members = await getMembers();
-    _cache = members;
-    yield members;
+    final members = getMembers();
+    members.listen((value) {
+      _cache = value;
+    });
+    yield* members;
   }
 
   Future<StaffMember?> getMember(String id) async {
