@@ -1,14 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-import './supporting_staff_detail_screen.dart';
 import './supporting_staff_form_screen.dart';
 import '../models/staff_member.dart';
 import '../providers/current_user.dart';
 import '../providers/supporting_staff_members.dart';
+import '../widgets/member_list_tile.dart';
 
 class SupportingStaffScreen extends StatelessWidget {
   const SupportingStaffScreen({Key? key}) : super(key: key);
@@ -57,30 +56,7 @@ class SupportingStaffScreen extends StatelessWidget {
                       child: ListView.builder(
                         itemCount: members!.length,
                         itemBuilder: (context, index) {
-                          return Card(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 4),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: ListTile(
-                                  leading: FaIcon(
-                                    FontAwesomeIcons.solidCircleUser,
-                                    size: 40,
-                                    color: Colors.blue[blueShades[
-                                        Random().nextInt(blueShades.length)]],
-                                  ),
-                                  title: Text(members[index].name),
-                                  subtitle: Text(members[index].subDepartment),
-                                  trailing: Text(
-                                    members[index].department,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  onTap: () => Navigator.of(context).pushNamed(
-                                      SupportingStaffDetailScreen.routeName,
-                                      arguments: members[index])),
-                            ),
-                          );
+                          return MemberListTile(member: members[index]);
                         },
                       ),
                     );

@@ -20,8 +20,9 @@ class MemberListTile extends StatelessWidget {
           leading: FaIcon(
             FontAwesomeIcons.solidCircleUser,
             size: 40,
-            color:
-                Colors.blue[_blueShades[Random().nextInt(_blueShades.length)]],
+            // color:
+            //     Colors.blue[_blueShades[Random().nextInt(_blueShades.length)]],
+            color: Color.fromARGB(255, 81, 185, 169),
           ),
           title: Text(member.name),
           subtitle: Text(member.subDepartment),

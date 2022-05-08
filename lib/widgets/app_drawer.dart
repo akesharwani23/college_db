@@ -33,8 +33,11 @@ class AppDrawer extends StatelessWidget {
           height: 80,
         ),
         const CircleAvatar(
-          backgroundColor: Colors.blue,
-          foregroundColor: Colors.white70,
+          // backgroundColor: Colors.blue,
+          foregroundColor: Color.fromRGBO(221, 233, 222, 0.7),
+          backgroundColor: Color.fromARGB(255, 31, 105, 162),
+
+          // foregroundColor: Colors.white70,
           minRadius: 52,
           child: FaIcon(
             FontAwesomeIcons.userAstronaut,
