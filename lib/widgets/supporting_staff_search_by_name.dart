@@ -30,6 +30,9 @@ class SupportingStaffSearchByName extends SearchDelegate<StaffMember?> {
 
   @override
   Widget buildResults(BuildContext context) {
+    if (query.trim().isEmpty) {
+      return const Center(child: Text('NO RESULT'));
+    }
     return StreamBuilder<List<StaffMember>>(
       stream: Provider.of<SupportingStaffMembers>(context)
           .getMembersWithNameStartingFrom(query.trim()),
@@ -57,27 +60,17 @@ class SupportingStaffSearchByName extends SearchDelegate<StaffMember?> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return StreamBuilder<List<StaffMember>>(
-      stream: Provider.of<SupportingStaffMembers>(context).getMemberAsStream(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final members = snapshot.data;
-          return ListView.builder(
-              itemCount: members!.length,
-              itemBuilder: (context, index) => InkWell(
-                  child: MemberListTile(member: members[index]),
-                  onTap: () => Navigator.of(context).pushNamed(
-                        StaffDetailScreen.routeName,
-                        arguments: members[index],
-                      )));
-        }
-        return const Center(
-          child: Text(
-            'No Data',
-            style: TextStyle(fontSize: 18),
-          ),
-        );
-      },
+    final members =
+        Provider.of<SupportingStaffMembers>(context).supportingStaffMemberCache;
+    return ListView.builder(
+      itemCount: members.length,
+      itemBuilder: (context, index) => InkWell(
+        child: MemberListTile(member: members[index]),
+        onTap: () => Navigator.of(context).pushNamed(
+          StaffDetailScreen.routeName,
+          arguments: members[index],
+        ),
+      ),
     );
   }
 }
