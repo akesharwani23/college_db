@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:college_db/screens/supporting_staff_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -56,7 +57,13 @@ class SupportingStaffScreen extends StatelessWidget {
                       child: ListView.builder(
                         itemCount: members!.length,
                         itemBuilder: (context, index) {
-                          return MemberListTile(member: members[index]);
+                          return InkWell(
+                            child: MemberListTile(member: members[index]),
+                            onTap: () => Navigator.of(context).pushNamed(
+                              SupportingStaffDetailScreen.routeName,
+                              arguments: members[index],
+                            ),
+                          );
                         },
                       ),
                     );
