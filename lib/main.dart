@@ -57,26 +57,28 @@ class MyApp extends StatelessWidget {
             }
           }),
       theme: ThemeData(
-          bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-              // selectedItemColor: Colors.lightBlue,
-              // selectedItemColor: Color.fromRGBO(1, 45, 120, 1),
-              selectedItemColor: Color.fromARGB(255, 37, 143, 127),
-              unselectedItemColor: Colors.grey),
-          floatingActionButtonTheme: const FloatingActionButtonThemeData(
-            backgroundColor: Color.fromARGB(255, 31, 162, 142),
-          ),
-          primaryColor: const Color.fromARGB(255, 19, 37, 41),
-          // buttonColor: C,
-          // rgba(19,37,41,255)
-          backgroundColor: Colors.amberAccent,
-          textTheme: GoogleFonts.robotoTextTheme(),
-          appBarTheme: AppBarTheme(
-              // color: Color.fromARGB(255, 31, 105, 162),
-              color: Color.fromARGB(255, 37, 143, 127),
-              titleTextStyle: GoogleFonts.roboto(
-                  fontSize: 20, fontWeight: FontWeight.w400)),
-          colorScheme:
-              ColorScheme.fromSwatch().copyWith(secondary: Colors.pinkAccent)),
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+            // selectedItemColor: Colors.lightBlue,
+            // selectedItemColor: Color.fromRGBO(1, 45, 120, 1),
+            selectedItemColor: Color.fromARGB(255, 37, 143, 127),
+            unselectedItemColor: Colors.grey),
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          backgroundColor: Color.fromARGB(255, 31, 162, 142),
+        ),
+        primaryColor: const Color.fromARGB(255, 19, 37, 41),
+        // buttonColor: C,
+        // rgba(19,37,41,255)
+        backgroundColor: Colors.amberAccent,
+        textTheme: GoogleFonts.robotoTextTheme(),
+        appBarTheme: AppBarTheme(
+          // color: Color.fromARGB(255, 31, 105, 162),
+          color: Color.fromARGB(255, 37, 143, 127),
+          titleTextStyle:
+              GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w400),
+        ),
+        colorScheme:
+            ColorScheme.fromSwatch().copyWith(secondary: Colors.greenAccent),
+      ),
       routes: {
         AdmissionFormScreen.routeName: (ctx) => const AdmissionFormScreen(),
         AdmissionDetailScreen.routeName: (ctx) => const AdmissionDetailScreen(),
