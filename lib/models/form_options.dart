@@ -1,6 +1,4 @@
-/**
- * Form options stored as List<String>
- */
+/// Form options stored as List<String>
 Map<String, List<String>> courseOptions = {
   "UG": [
     "B.Tech",

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:college_db/screens/supporting_staff_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +13,6 @@ class SupportingStaffScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const blueShades = [100, 200, 300, 400, 600, 700, 800, 900];
     return Scaffold(
         floatingActionButton: StreamBuilder<CurrentUser?>(
             stream: Provider.of<CurrentUserProvider>(context).cachedUser,

@@ -21,13 +21,13 @@ class _LogInWidgetState extends State<LogInWidget> {
         builder: (ctx) => AlertDialog(
               title: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.error,
                     color: Colors.red,
                   ),
                   Text(
                     title,
-                    style: TextStyle(color: Colors.red),
+                    style: const TextStyle(color: Colors.red),
                   ),
                 ],
               ),
@@ -35,7 +35,7 @@ class _LogInWidgetState extends State<LogInWidget> {
               actions: [
                 TextButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    child: Text('Okay'))
+                    child: const Text('Okay'))
               ],
             ));
   }
@@ -66,7 +66,7 @@ class _LogInWidgetState extends State<LogInWidget> {
     return Container(
       // backgroundColor: Colors.white,
       child: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Form(
               key: _formKey,
               child: Column(
@@ -76,7 +76,7 @@ class _LogInWidgetState extends State<LogInWidget> {
                     //   height: 30,
                     // ),
                     TextFormField(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Email',
                       ),
@@ -90,10 +90,10 @@ class _LogInWidgetState extends State<LogInWidget> {
                       },
                       textInputAction: TextInputAction.next,
                     ),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     TextFormField(
                       textInputAction: TextInputAction.done,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Password',
                       ),
@@ -107,13 +107,13 @@ class _LogInWidgetState extends State<LogInWidget> {
                       },
                       obscureText: true,
                     ),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     ElevatedButton(
                         onPressed: _loginFunction,
                         child: Container(
                           alignment: Alignment.center,
                           width: double.infinity,
-                          margin: EdgeInsets.all(10),
+                          margin: const EdgeInsets.all(10),
                           child: const Text(
                             'Log In',
                             style: TextStyle(fontSize: 24),

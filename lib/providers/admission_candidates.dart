@@ -81,7 +81,6 @@ class AdmissionCandidates with ChangeNotifier {
     });
   }
 
-  //FIXME: set limit = 10
   Stream<List<AdmissionCandidate>> getCandidatesWithStatus({
     String status = "Confirmed",
     int limit = 10,

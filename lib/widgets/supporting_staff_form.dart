@@ -34,7 +34,7 @@ class _SupportingStaffFormState extends State<SupportingStaffForm> {
   @override
   void initState() {
     if (widget.member != null) {
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         _updateDepartmentDependents(widget.member!.department,
             resetValue: false);
         _formKey.currentState!.fields['department']!
@@ -94,12 +94,12 @@ class _SupportingStaffFormState extends State<SupportingStaffForm> {
                       children: [
                         Row(
                           children: [
-                            Text(
+                            const Text(
                               'Department: ',
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold),
                             ),
-                            Spacer(),
+                            const Spacer(),
                             SizedBox(
                               width: deviceSize.width * 0.6,
                               child: FormBuilderDropdown(
@@ -108,12 +108,13 @@ class _SupportingStaffFormState extends State<SupportingStaffForm> {
                                     if (value == null || value.isEmpty) {
                                       return 'Please Select Department';
                                     }
+                                    return null;
                                   },
                                   onChanged: (String? value) =>
                                       _updateDepartmentDependents(value),
                                   items: options.department.keys
                                       .map((option) => DropdownMenuItem(
-                                            child: Text('$option'),
+                                            child: Text(option),
                                             value: option,
                                           ))
                                       .toList()),
@@ -122,12 +123,12 @@ class _SupportingStaffFormState extends State<SupportingStaffForm> {
                         ),
                         Row(
                           children: [
-                            Text(
+                            const Text(
                               'Sub Department: ',
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold),
                             ),
-                            Spacer(),
+                            const Spacer(),
                             SizedBox(
                               width: deviceSize.width * 0.4,
                               child: FormBuilderDropdown(
@@ -137,12 +138,13 @@ class _SupportingStaffFormState extends State<SupportingStaffForm> {
                                     if (value == null || value.isEmpty) {
                                       return 'Please Select Sub Department';
                                     }
+                                    return null;
                                   },
                                   // onChanged: (String? value) =>
                                   //     _updateCourseDependents(value),
                                   items: _subDepartmentOptions
                                       .map((option) => DropdownMenuItem(
-                                            child: Text('$option'),
+                                            child: Text(option),
                                             value: option,
                                           ))
                                       .toList()),
@@ -158,8 +160,9 @@ class _SupportingStaffFormState extends State<SupportingStaffForm> {
                               if (value == null || value.isEmpty) {
                                 return 'Please Enter Name';
                               }
+                              return null;
                             },
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                                 labelText: 'Staff Name',
                                 border: OutlineInputBorder()),
                           ),
@@ -174,8 +177,9 @@ class _SupportingStaffFormState extends State<SupportingStaffForm> {
                               if (value == null || value.isEmpty) {
                                 return 'Please Enter Field';
                               }
+                              return null;
                             },
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                                 labelText: 'Qualification',
                                 border: OutlineInputBorder()),
                           ),
@@ -190,8 +194,9 @@ class _SupportingStaffFormState extends State<SupportingStaffForm> {
                               if (value == null || value.isEmpty) {
                                 return 'Please Enter Field';
                               }
+                              return null;
                             },
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                                 labelText: 'Experience',
                                 border: OutlineInputBorder()),
                           ),
@@ -206,8 +211,9 @@ class _SupportingStaffFormState extends State<SupportingStaffForm> {
                               if (value == null || value.isEmpty) {
                                 return 'Please Enter Field';
                               }
+                              return null;
                             },
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                                 labelText: 'Address',
                                 border: OutlineInputBorder()),
                           ),
@@ -221,9 +227,10 @@ class _SupportingStaffFormState extends State<SupportingStaffForm> {
                               if (value == null || value.isEmpty) {
                                 return 'Please Enter Mobile Number';
                               }
+                              return null;
                             },
                             keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                                 labelText: 'Mobile Number',
                                 border: OutlineInputBorder()),
                           ),
@@ -242,18 +249,18 @@ class _SupportingStaffFormState extends State<SupportingStaffForm> {
                                     _formKey.currentState!.reset();
                                   }
                                 },
-                                icon: Icon(Icons.restore),
-                                label: Text('Reset'),
+                                icon: const Icon(Icons.restore),
+                                label: const Text('Reset'),
                               ),
                             ),
-                            Spacer(),
+                            const Spacer(),
                             Padding(
                               // TODO: Show confirm dialog
                               padding: const EdgeInsets.all(8.0),
                               child: ElevatedButton.icon(
                                   onPressed: () => _submit(context),
-                                  icon: Icon(Icons.save),
-                                  label: Text('Submit')),
+                                  icon: const Icon(Icons.save),
+                                  label: const Text('Submit')),
                             ),
                           ],
                         ),

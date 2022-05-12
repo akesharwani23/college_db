@@ -1,12 +1,9 @@
-import 'dart:io';
-
 import 'package:college_db/widgets/login_widget.dart';
 import 'package:college_db/widgets/signup_widget.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AuthScreen extends StatefulWidget {
-  AuthScreen({Key? key}) : super(key: key);
+  const AuthScreen({Key? key}) : super(key: key);
 
   @override
   State<AuthScreen> createState() => _AuthScreenState();
@@ -31,7 +28,7 @@ class _AuthScreenState extends State<AuthScreen> {
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _isLogin ? LogInWidget() : SignUpWidget(),
+              _isLogin ? const LogInWidget() : const SignUpWidget(),
               TextButton(
                   onPressed: _toggle,
                   child: Text('${!_isLogin ? "login" : "signup"} Instead'))

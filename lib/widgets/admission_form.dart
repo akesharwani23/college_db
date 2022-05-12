@@ -8,7 +8,7 @@ import '../providers/admission_candidates.dart';
 
 class AdmissionForm extends StatefulWidget {
   final AdmissionCandidate? candidate;
-  AdmissionForm({this.candidate, Key? key}) : super(key: key);
+  const AdmissionForm({this.candidate, Key? key}) : super(key: key);
 
   @override
   State<AdmissionForm> createState() => _AdmissionFormState();
@@ -67,7 +67,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
       //   }
       // });
 
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         // print("WidgetsBinding");
         _updateLevelDependents(widget.candidate!.courseType, resetValue: false);
         _updateCourseDependents(widget.candidate!.course, resetValue: false);
@@ -165,7 +165,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
     final deviceSize = MediaQuery.of(context).size;
     var candidate = widget.candidate;
     return _isLoading
-        ? Center(child: CircularProgressIndicator())
+        ? const Center(child: CircularProgressIndicator())
         : Padding(
             padding: const EdgeInsets.all(8.0),
             child: SingleChildScrollView(
@@ -183,7 +183,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                               scrollDirection: Axis.horizontal,
                               child: Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     'Status:',
                                     style: TextStyle(
                                         fontSize: 18,
@@ -193,7 +193,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                     width: MediaQuery.of(context).size.height *
                                         0.6,
                                     child: FormBuilderRadioGroup(
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                           border: InputBorder.none,
                                         ),
                                         name: 'status',
@@ -202,6 +202,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                           if (value == null || value.isEmpty) {
                                             return 'Please Select status';
                                           }
+                                          return null;
                                         },
                                         options: [
                                           "Confirmed",
@@ -211,7 +212,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                             .map((option) =>
                                                 FormBuilderFieldOption(
                                                     value: option,
-                                                    child: Text("$option")))
+                                                    child: Text(option)))
                                             .toList()),
                                   ),
                                 ],
@@ -219,13 +220,13 @@ class _AdmissionFormState extends State<AdmissionForm> {
                             ),
                             Row(
                               children: [
-                                Text(
+                                const Text(
                                   'Level: ',
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 SizedBox(
                                   width: deviceSize.width * 0.6,
                                   child: FormBuilderDropdown(
@@ -235,12 +236,13 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                         if (value == null || value.isEmpty) {
                                           return 'Please Select Level';
                                         }
+                                        return null;
                                       },
                                       onChanged: (String? value) =>
                                           _updateLevelDependents(value),
                                       items: options.courseOptions.keys
                                           .map((option) => DropdownMenuItem(
-                                                child: Text('$option'),
+                                                child: Text(option),
                                                 value: option,
                                               ))
                                           .toList()),
@@ -249,13 +251,13 @@ class _AdmissionFormState extends State<AdmissionForm> {
                             ),
                             Row(
                               children: [
-                                Text(
+                                const Text(
                                   'Course: ',
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 SizedBox(
                                   width: deviceSize.width * 0.6,
                                   child: FormBuilderDropdown(
@@ -265,12 +267,13 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                         if (value == null || value.isEmpty) {
                                           return 'Please Select Course';
                                         }
+                                        return null;
                                       },
                                       onChanged: (String? value) =>
                                           _updateCourseDependents(value),
                                       items: _courseOptions
                                           .map((option) => DropdownMenuItem(
-                                                child: Text('$option'),
+                                                child: Text(option),
                                                 value: option,
                                               ))
                                           .toList()),
@@ -279,13 +282,13 @@ class _AdmissionFormState extends State<AdmissionForm> {
                             ),
                             Row(
                               children: [
-                                Text(
+                                const Text(
                                   'Branch: ',
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 SizedBox(
                                   width: deviceSize.width * 0.6,
                                   child: FormBuilderDropdown(
@@ -295,17 +298,18 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                         if (value == null || value.isEmpty) {
                                           return 'Please Select Branch';
                                         }
+                                        return null;
                                       },
                                       items: _branchOptions
                                           .map((option) => DropdownMenuItem(
-                                                child: Text('$option'),
+                                                child: Text(option),
                                                 value: option,
                                               ))
                                           .toList()),
                                 )
                               ],
                             ),
-                            Divider(),
+                            const Divider(),
 
                             /**------------
                        * PERSONAL DETAILS SECTION
@@ -319,8 +323,9 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Name';
                                   }
+                                  return null;
                                 },
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     labelText: 'Student Name',
                                     border: OutlineInputBorder()),
                               ),
@@ -332,7 +337,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                 initialValue: candidate?.dob,
                                 inputType: InputType.date,
                                 initialDate: DateTime.now(),
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     labelText: 'Date Of Birth',
                                     suffixIcon: Icon(Icons.calendar_month)),
                               ),
@@ -346,9 +351,10 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Mobile Number';
                                   }
+                                  return null;
                                 },
                                 keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     labelText: 'Student Mobile Number',
                                     border: OutlineInputBorder()),
                               ),
@@ -362,8 +368,9 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Field';
                                   }
+                                  return null;
                                 },
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     labelText: 'Parent Name',
                                     border: OutlineInputBorder()),
                               ),
@@ -377,9 +384,10 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Field';
                                   }
+                                  return null;
                                 },
                                 keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     labelText: 'Parent Mobile Number',
                                     border: OutlineInputBorder()),
                               ),
@@ -393,8 +401,9 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Field';
                                   }
+                                  return null;
                                 },
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     labelText: "Parent Occupation",
                                     border: OutlineInputBorder()),
                               ),
@@ -409,8 +418,9 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Field';
                                   }
+                                  return null;
                                 },
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     labelText: 'Address',
                                     border: OutlineInputBorder()),
                               ),
@@ -424,8 +434,9 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Previous Insitute Name';
                                   }
+                                  return null;
                                 },
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     labelText: 'Previous Institute Name',
                                     border: OutlineInputBorder()),
                               ),
@@ -440,8 +451,9 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Roll No of Last Examination';
                                   }
+                                  return null;
                                 },
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     labelText: 'Roll No Last Exam',
                                     border: OutlineInputBorder()),
                               ),
@@ -456,8 +468,9 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Semester Fee';
                                   }
+                                  return null;
                                 },
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     prefixIcon:
                                         Icon(Icons.currency_rupee_rounded),
                                     labelText: 'Semester Fee',
@@ -475,8 +488,9 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Amount paid by student';
                                   }
+                                  return null;
                                 },
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     prefixIcon:
                                         Icon(Icons.currency_rupee_rounded),
                                     labelText: 'Amount Paid By Student',
@@ -494,8 +508,9 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Cancellation Charges';
                                   }
+                                  return null;
                                 },
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     prefixIcon:
                                         Icon(Icons.currency_rupee_rounded),
                                     labelText: 'Cancellation Charges',
@@ -512,21 +527,22 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Field';
                                   }
+                                  return null;
                                 },
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     labelText: 'Remark',
                                     border: OutlineInputBorder()),
                               ),
                             ),
                             Row(
                               children: [
-                                Text(
+                                const Text(
                                   'Category: ',
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 SizedBox(
                                   width: deviceSize.width * 0.6,
                                   child: FormBuilderDropdown(
@@ -536,11 +552,12 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                       if (value == null || value.isEmpty) {
                                         return 'Please Select Field';
                                       }
+                                      return null;
                                     },
                                     items: ["General", "OBC", "ST", "SC"]
                                         .map((option) => DropdownMenuItem(
                                               value: option,
-                                              child: Text('$option'),
+                                              child: Text(option),
                                             ))
                                         .toList(),
                                   ),
@@ -548,12 +565,12 @@ class _AdmissionFormState extends State<AdmissionForm> {
                               ],
                             ),
                             FormBuilderCheckbox(
-                                decoration: InputDecoration(),
+                                decoration: const InputDecoration(),
                                 controlAffinity:
                                     ListTileControlAffinity.trailing,
                                 name: 'eligibleForScholarship',
                                 initialValue: candidate?.eligibleForScholarship,
-                                title: Text(
+                                title: const Text(
                                   'Is Candidate Eligible For Scholarship?',
                                   style: TextStyle(fontSize: 18),
                                 )),
@@ -562,13 +579,13 @@ class _AdmissionFormState extends State<AdmissionForm> {
                              */
                             Row(
                               children: [
-                                Text(
+                                const Text(
                                   'Appeared in entrance exam: ',
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 SizedBox(
                                   width: deviceSize.width * 0.3,
                                   child: FormBuilderDropdown(
@@ -585,11 +602,12 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                       if (value == null || value.isEmpty) {
                                         return 'Please Select Field';
                                       }
+                                      return null;
                                     },
                                     items: ["Yes", "No"]
                                         .map((option) => DropdownMenuItem(
                                               value: option,
-                                              child: Text('$option'),
+                                              child: Text(option),
                                             ))
                                         .toList(),
                                   ),
@@ -599,13 +617,13 @@ class _AdmissionFormState extends State<AdmissionForm> {
                             if (_appearedInEntranceExam)
                               Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     'Name of Exam: ',
                                     style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  Spacer(),
+                                  const Spacer(),
                                   SizedBox(
                                     width: deviceSize.width * 0.6,
                                     child: FormBuilderDropdown(
@@ -617,6 +635,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                             return 'Please Select Field';
                                           }
                                         }
+                                        return null;
                                       },
                                       items: [
                                         "PET",
@@ -632,7 +651,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                       ]
                                           .map((option) => DropdownMenuItem(
                                                 value: option,
-                                                child: Text('$option'),
+                                                child: Text(option),
                                               ))
                                           .toList(),
                                     ),
@@ -651,9 +670,10 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                         return 'Please Provide Rank';
                                       }
                                     }
+                                    return null;
                                   },
                                   keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                       labelText: 'Entrance Exam Rank',
                                       border: OutlineInputBorder()),
                                 ),
@@ -670,9 +690,10 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                         return 'Please Provide Score Of Entrance Exam';
                                       }
                                     }
+                                    return null;
                                   },
                                   keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                       labelText: 'Entrance Exam Score',
                                       border: OutlineInputBorder()),
                                 ),
@@ -686,8 +707,9 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Admitted By';
                                   }
+                                  return null;
                                 },
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     labelText: 'Admitted By',
                                     border: OutlineInputBorder()),
                               ),
@@ -701,8 +723,9 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Admission Incharge Name';
                                   }
+                                  return null;
                                 },
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     labelText: 'Admission Incharge Name',
                                     border: OutlineInputBorder()),
                               ),
@@ -716,8 +739,9 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                   if (value == null || value.isEmpty) {
                                     return 'Please Enter Session';
                                   }
+                                  return null;
                                 },
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     labelText: 'Session',
                                     border: OutlineInputBorder()),
                               ),
@@ -730,7 +754,7 @@ class _AdmissionFormState extends State<AdmissionForm> {
                                     candidate?.admissionDate ?? DateTime.now(),
                                 inputType: InputType.date,
                                 initialDate: DateUtils.dateOnly(DateTime.now()),
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     labelText: 'Date Of Admission',
                                     suffixIcon: Icon(Icons.calendar_month)),
                               ),
@@ -752,18 +776,18 @@ class _AdmissionFormState extends State<AdmissionForm> {
                               _formKey.currentState!.reset();
                             }
                           },
-                          icon: Icon(Icons.restore),
-                          label: Text('Reset'),
+                          icon: const Icon(Icons.restore),
+                          label: const Text('Reset'),
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Padding(
                         // TODO: Show confirm dialog
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton.icon(
                             onPressed: () => _submit(context),
-                            icon: Icon(Icons.save),
-                            label: Text('Submit')),
+                            icon: const Icon(Icons.save),
+                            label: const Text('Submit')),
                       ),
                     ],
                   ),

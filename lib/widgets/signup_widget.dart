@@ -91,7 +91,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Name',
                         ),
@@ -100,6 +100,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           if (value == null || value.isEmpty) {
                             return 'Field Empty';
                           }
+                          return null;
                         },
                         onSaved: (value) {
                           _authData['name'] = value as String;
@@ -107,7 +108,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       ),
                       const SizedBox(height: 15),
                       TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Email',
                         ),
@@ -120,13 +121,14 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           } else if (!value.contains('@')) {
                             return 'Invalid EmailID'; //FIXME: cover other cases also
                           }
+                          return null;
                         },
                         textInputAction: TextInputAction.next,
                       ),
                       const SizedBox(height: 15),
                       TextFormField(
                         textInputAction: TextInputAction.done,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Password',
                         ),
@@ -138,6 +140,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           if (value == null || value.isEmpty) {
                             return 'Field Empty';
                           }
+                          return null;
+                          //FIXME: fix password
                           // if (!value.contains(RegExp(
                           //     r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$'))) {
                           //   return '*Should contain at least one upper case\n*Should contain at least one lower case\n*Should contain at least one digit\n*Should contain at least one Special character\n*Must be at least 8 characters in length';

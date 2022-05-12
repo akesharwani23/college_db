@@ -28,20 +28,6 @@ class _AdmissionSearchByBranchState extends State<AdmissionSearchByBranch> {
     'Registration': Colors.redAccent,
   };
 
-  List<AdmissionCandidate> _distinctCandidates(
-      List<AdmissionCandidate> candidates) {
-    List<String> listId = [];
-    List<AdmissionCandidate> _distinctCandidates = [];
-    for (final candidate in candidates) {
-      if (listId.contains(candidate.id!)) {
-        // do nothing
-      }
-      listId.add(candidate.id!);
-      _distinctCandidates.add(candidate);
-    }
-    return _distinctCandidates;
-  }
-
   void _updateCourseDependents(String? value, {bool resetValue = true}) {
     if (value == null) {
       return;
@@ -74,7 +60,7 @@ class _AdmissionSearchByBranchState extends State<AdmissionSearchByBranch> {
             child: DropdownButton<String>(
                 value: _selectedCourse,
                 isExpanded: true,
-                hint: Text('Course'),
+                hint: const Text('Course'),
                 underline: const SizedBox.shrink(),
                 items: branchOptions.keys
                     .map((e) =>

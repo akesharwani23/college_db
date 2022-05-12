@@ -1,12 +1,9 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../models/staff_member.dart';
 
 class MemberListTile extends StatelessWidget {
-  static const _blueShades = [100, 200, 300, 400, 600, 700, 800, 900];
   final StaffMember member;
   const MemberListTile({required this.member, Key? key}) : super(key: key);
 
@@ -17,7 +14,7 @@ class MemberListTile extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: ListTile(
-          leading: FaIcon(
+          leading: const FaIcon(
             FontAwesomeIcons.solidCircleUser,
             size: 40,
             // color:

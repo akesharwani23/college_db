@@ -52,7 +52,7 @@ class _StaffSearchByDepartmentScreenState
                   underline: const SizedBox.shrink(),
                   items: options.department.keys
                       .map((option) => DropdownMenuItem(
-                            child: Text('$option'),
+                            child: Text(option),
                             value: option,
                           ))
                       .toList(),
@@ -77,7 +77,7 @@ class _StaffSearchByDepartmentScreenState
                   underline: const SizedBox.shrink(),
                   items: _subDepartmentOptions
                       .map((option) => DropdownMenuItem(
-                            child: Text('$option'),
+                            child: Text(option),
                             value: option,
                           ))
                       .toList(),

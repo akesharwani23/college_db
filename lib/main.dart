@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
             if (snapshot.hasData) {
               return const HomeScreen();
             } else {
-              return AuthScreen();
+              return const AuthScreen();
             }
           }),
       theme: ThemeData(
@@ -72,7 +72,7 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.robotoTextTheme(),
         appBarTheme: AppBarTheme(
           // color: Color.fromARGB(255, 31, 105, 162),
-          color: Color.fromARGB(255, 37, 143, 127),
+          color: const Color.fromARGB(255, 37, 143, 127),
           titleTextStyle:
               GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w400),
         ),
